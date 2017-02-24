@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>CodeRuse</title>
+  <subtitle>Re-usable code to encounter daily Ruses</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://coderuse.com/"/>
+  <updated>2017-02-24T20:22:27.252Z</updated>
+  <id>http://coderuse.com/</id>
+  
+  <author>
+    <name>Arnab Das</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaScript Objects, Functions aka Classes In ES5</title>
+    <link href="http://coderuse.com/2016/09/JavaScript-Objects-Functions-Classes-In-ES5/"/>
+    <id>http://coderuse.com/2016/09/JavaScript-Objects-Functions-Classes-In-ES5/</id>
+    <published>2016-09-20T08:55:07.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>JavaScript has five primitive data types: string, number, boolean, null and undefined. And operators like, <code>+</code>, <code>-</code>, <code>typeof</code>, <code>instanceof</code> etc. Other than these, everything else are objects. Even functions are objects, can be created by invoking by <code>Function</code> constructor and <code>typeof</code> on a function returns <code>function</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// new Function([arg1[, arg2[, ...argN]],] functionBody)</span></span><br><span class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">'legs'</span>, <span class="string">'this.legs = legs;'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// check the type</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> animal); <span class="comment">// function</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// create an object</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> animal(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// and check if the value has been assigned or not </span></span><br><span class="line"><span class="built_in">console</span>.log(a.legs); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>JavaScript interpreter does not enforce it, but it’s a common convention, the name of the functions, which are not intended to be used as <code>class</code>es, starts with a small letter and follows the conventions of <a href="https://en.wikipedia.org/wiki/CamelCase" target="_blank" rel="external">camelCase</a>.</p>
+<p>Functions in JavaScript either used as a block of codes, to be executed upon call or create objects with properties assigned to the function or to its prototype.</p>
+<p>Though operators seems to work like function, but by nature they are special kind of entity, which can’t be assigned and always needs operand(s) to operate on. That means, we can’t write <code>var o = +;</code>.</p>
+<p>Objects can be created by two ways.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// by object literal</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// by using constructor functions</span></span><br><span class="line"><span class="keyword">var</span> classObj = <span class="keyword">new</span> Animal(<span class="number">4</span>);</span><br></pre></td></tr></table></figure>
+<p>JavaScript objects are basically representations of data-structure of key-value pair. And they can be iterated. And in modern browsers we don’t need to check with <code>.hasOwnProperty</code> as <a href="http://stackoverflow.com/questions/8312459/iterate-through-object-properties" target="_blank" rel="external">with the old browsers</a>. Now we can simply do by <code>for...in</code> loop.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// create the object</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">"Simon"</span>,</span><br><span class="line">  age: <span class="string">"20"</span>,</span><br><span class="line">  clothing: &#123;</span><br><span class="line">    style: <span class="string">"simple"</span>,</span><br><span class="line">    hipster: <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// iterate over the properties of the objects</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> propt <span class="keyword">in</span> obj)&#123;</span><br><span class="line">  <span class="keyword">if</span> (obj.hasOwnProperty(propt)) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(propt + <span class="string">': '</span> + obj[propt]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>We can add properties to objects by two methods. Either declare properties at the time of creating the objects as the previous example or later assign by <code>value-of</code> notation.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// use the string literals directly</span></span><br><span class="line">obj[<span class="string">'literal'</span>] = <span class="string">'literal value'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// or dynamically set the property by variables</span></span><br><span class="line"><span class="keyword">var</span> property = <span class="string">'dynamicProperty'</span>;</span><br><span class="line">obj[property] = <span class="string">'dynamic property value'</span>;</span><br></pre></td></tr></table></figure>
+<p>To delete a property from an object we can use <code>delete</code> keyword.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// directly delete the property if known</span></span><br><span class="line"><span class="keyword">delete</span> obj.name;</span><br><span class="line"></span><br><span class="line"><span class="comment">// dynamically assign property name to delete</span></span><br><span class="line"><span class="keyword">var</span> toDeleteKey = <span class="string">'age'</span>;</span><br><span class="line"><span class="keyword">delete</span> obj[toDeleteKey];</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(obj)); <span class="comment">// &#123;"clothing":&#123;"style":"simple","hipster":false&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>By default type of any object, created programmatically is <code>object</code> and parent is <code>undefined</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> obj); <span class="comment">// object</span></span><br></pre></td></tr></table></figure>
+<p>Prior to ES-2015, there was no notion of classes in JavaScript, though <code>class</code> was a reserved keyword. So, until ES-2015, generally classes were reprsented as functions. And with functions, we can even derive one class into another, using the prototypal inheritance of JavaScript. There are several versions of deriving one class into another, and we can use one of these ways, as per the requirement and choice.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// declare class - 'Animal'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.legs = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.legs = <span class="number">8</span>;</span><br><span class="line">Animal.prototype.move = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'moving...'</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// declare class - 'Tiger'</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Tiger</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.class = <span class="string">'mammal'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Unlike other programming languages, in JavaScript inheritance assigned after creation of class, through prototype. Here we will discuss various methods of deriving classes.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// assign a new object to the prototype of 'Tiger'</span></span><br><span class="line">Tiger.prototype = <span class="keyword">new</span> Animal();</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a new object of type tiger</span></span><br><span class="line"><span class="keyword">var</span> t = <span class="keyword">new</span> Tiger();</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(t.legs); <span class="comment">// 4</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(t.class); <span class="comment">// 'mammal'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(t.move()); <span class="comment">// moving...</span></span><br></pre></td></tr></table></figure>
+<p>All things are fine and all the properties present in the prototype along with the properties declared in direct <code>closure</code> of the super class has been derived to child class <code>Tiger</code>. Programmatically and in using this type of construct don’t cause any problems.</p>
+<p>However, using <code>new</code> with a prototypal language like JavaScript, seems like going against the tide. And in <a href="http://javascript.crockford.com/prototypal.html" target="_blank" rel="external">this historic document</a>, Crockford agrees to the fact, that JavaScript lacks the mechanism to inherit directly from another object. Instead it uses <code>function</code> along with <code>new</code> keyword.</p>
+<blockquote>
+<p>This indirection was intended to make the language seem more familiar to classically trained programmers, but failed to do that, as we can see from the very low opinion Java programmers have of JavaScript. JavaScript’s constructor pattern did not appeal to the classical crowd. It also obscured JavaScript’s true prototypal nature. As a result, there are very few programmers who know how to use the language effectively.</p>
+</blockquote>
+<p>Using <code>new</code> keyword, actually causes a little deviation from being a pure <code>Prototypal Language</code>. In modern browsers, there is a method called <code>create</code> in the <code>Object</code> prototype. This tries to fulfill the promise of a pure prototypal language.</p>
+<p>So, our previous example can be formatted as,</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// declare Animal class</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.legs = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line">Animal.prototype.legs = <span class="number">8</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// declare Tiger class</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Tiger</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.class = <span class="string">'mammal'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a new instance of Animal.prototype and</span></span><br><span class="line"><span class="comment">// assign it to the Tiger.prototype</span></span><br><span class="line">Tiger.prototype = <span class="built_in">Object</span>.create(Animal.prototype);</span><br><span class="line"></span><br><span class="line"><span class="comment">// explicitly assign Tiger as the prototype's constructor</span></span><br><span class="line">Tiger.prototype.constructor = Tiger;</span><br><span class="line"></span><br><span class="line"><span class="comment">// create instance of Tiger</span></span><br><span class="line"><span class="keyword">var</span> t = <span class="keyword">new</span> Tiger();</span><br><span class="line"><span class="built_in">console</span>.log(t.legs); <span class="comment">// 8</span></span><br><span class="line"><span class="built_in">console</span>.log(t.class); <span class="comment">// mammal</span></span><br></pre></td></tr></table></figure>
+<p>So, it didn’t call the <code>constructor</code> of the <code>Animal</code> class. We need to do that explicitly inside the <code>Tiger</code> <code>constructor</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Tiger</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  Animal.call(<span class="keyword">this</span>); <span class="comment">// call Animal constructor</span></span><br><span class="line">  <span class="keyword">this</span>.class = <span class="string">'mammal'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> t = <span class="keyword">new</span> Tiger();</span><br><span class="line"><span class="built_in">console</span>.log(t.legs); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>And if we are more into writing prototypically pure code, we should not even use functions as classes. Observe how the properties are created here. We can also control accesses of the properties. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties" target="_blank" rel="external">More details</a>.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">// create Animal class object creator</span><br><span class="line">function createAnimal () &#123;</span><br><span class="line">  return Object.create(Object.prototype, &#123;</span><br><span class="line">    legs: &#123;</span><br><span class="line">      value: 4</span><br><span class="line">    &#125;,</span><br><span class="line">    move: &#123;</span><br><span class="line">      value: function () &#123;</span><br><span class="line">        console.log('moving...');</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// create Tiger class object creator</span><br><span class="line">function createTiger () &#123;</span><br><span class="line">  return Object.create(createAnimal(), &#123;</span><br><span class="line">    class: &#123;</span><br><span class="line">      value: 'mammal'</span><br><span class="line">    &#125;,</span><br><span class="line">    move: &#123;</span><br><span class="line">      value: function () &#123;</span><br><span class="line">        console.log('moving in stealth mode...');</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// create instance of Tiger class</span><br><span class="line">var t = createTiger();</span><br><span class="line"></span><br><span class="line">console.log(t.legs); // 4</span><br><span class="line">console.log(t.class); // mammal</span><br><span class="line">t.move(); // moving in stealth mode...</span><br></pre></td></tr></table></figure>
+<p>One benefit of using prototypal language is, it’s possible to use delegation instead of inheriting another class in order to re-use code.</p>
+<p>What is <code>delegation</code>? Let’s understand that by an example.</p>
+<p>Suppose we have two classes <code>Mammal</code> and <code>Reptile</code>. By the genetic inheritance, we know that, there are almost no similarity between these two species. As designing classes means abstraction of real behavior, suppose for the sake of the program we have identified that, the movement of both of the classes are same. And some super enthusiastic developer has already implemented the <code>move</code> function for the mammals.</p>
+<p>What can we do now. Derive the <code>Mammal</code> into <code>Reptile</code>, how odd it may look or sound. Or repeat the same method in <code>Reptile</code>. But that will introduce redundant code. Or move out the function out of <code>Mammal</code> and put in some <code>Utility</code> object and use from both the classes as method call.</p>
+<p>As a prototypal language JavaScript gives another possibility. <code>Delegation</code>.</p>
+<p>We can directly use the <code>move</code> function with an object of <code>Reptile</code> class by the use of <code>call</code> or <code>apply</code> available in <code>Function</code> prototype.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// create one object of reptile</span></span><br><span class="line"><span class="keyword">var</span> r = <span class="keyword">new</span> Reptile();</span><br><span class="line"></span><br><span class="line"><span class="comment">// use call or apply to invoke the function 'move'</span></span><br><span class="line">Mammal.move.apply(r, <span class="built_in">arguments</span>);</span><br></pre></td></tr></table></figure>
+<p>Only constraint would be, <code>Reptile</code> class should contain all the properties, required by the <code>move</code> method in <code>Mammal</code> class.</p>
+<p>But how this can be done?</p>
+<p>Here comes the concept of <code>closure</code>. In JavaScript, there is no <code>block-scope</code> as in other programming languages like Java, C++, C.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// i is available here</span></span><br><span class="line"><span class="built_in">console</span>.log(i); <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+<p>Instead it defines <code>closure</code> as the state of a function along with the scope of it. Let’s understand it by some examples.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> outside = <span class="string">'Outside'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(outside); <span class="comment">// Outside</span></span><br><span class="line">&#125;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(outside); <span class="comment">// Outside</span></span><br></pre></td></tr></table></figure>
+<p>Let’s modify the code a little bit. We will declare the variable <code>outside</code> again inside the function <code>a</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> outside = <span class="string">'Outside'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(outside); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> outside;</span><br><span class="line">&#125;</span><br><span class="line">a();</span><br><span class="line"><span class="built_in">console</span>.log(outside); <span class="comment">// Outside</span></span><br></pre></td></tr></table></figure>
+<p>Why it printed <code>undefined</code>? Because inside the function the re-declaration of <code>outside</code> hoisted and it overrided the prior declaration of the variable <code>outside</code>. But, outside the function it remains same.</p>
+<p>Now, let’s take an interesting example of <code>closure</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;, <span class="number">2000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It will print <code>4</code> three times. But we expected that, it should print <code>1</code>, <code>2</code> then <code>3</code>. Why it did that? Because, the closure, in which the expression <code>console.log(i);</code> was executed, had <code>4</code> as the value of <code>i</code> at the time of execution.</p>
+<p>How can we correct this? simply by creating new <code>closure</code> for each of the functions passed to <code>setTimeout</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">  setTimeout((<span class="function"><span class="keyword">function</span>(<span class="params">i</span>) </span>&#123; <span class="comment">// new closure</span></span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;(i)), <span class="number">2000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It’ll correctly print <code>1</code>, <code>2</code> then <code>3</code>.</p>
+<p>Is this the only way-out? No. We can also use <code>partial</code> functions here. What are partial functions.</p>
+<p>In <code>Function</code> prototype, there is one method, called <code>bind</code>, which returns a function binding with the passed context and arguments. This blog contains a <a href="http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/">previous post</a> regarding usefulness of this function for a specific usecase. Here we can use <code>bind</code> for this purpose.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="number">4</span>; i++) &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;.bind(<span class="keyword">this</span>, i), <span class="number">2000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It’ll print <code>1</code>, <code>2</code> and <code>3</code> in correct manner.</p>
+<p>Thank you for reading this. Be happy. :-)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;JavaScript has five primitive data types: string, number, boolean, null and undefined. And operators like, &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://coderuse.com/categories/JavaScript/"/>
+    
+      <category term="Inner Concepts" scheme="http://coderuse.com/categories/JavaScript/Inner-Concepts/"/>
+    
+      <category term="Programming Language" scheme="http://coderuse.com/categories/JavaScript/Inner-Concepts/Programming-Language/"/>
+    
+    
+      <category term="functions" scheme="http://coderuse.com/tags/functions/"/>
+    
+      <category term="javascript" scheme="http://coderuse.com/tags/javascript/"/>
+    
+      <category term="objects" scheme="http://coderuse.com/tags/objects/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Configure GitLab backup into Amazon S3</title>
+    <link href="http://coderuse.com/2016/09/Configure-GitLab-Backup-Into-Amazon-S3/"/>
+    <id>http://coderuse.com/2016/09/Configure-GitLab-Backup-Into-Amazon-S3/</id>
+    <published>2016-09-19T12:04:53.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>In the <a href="/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/">previous post</a>, I tried to write a step by step procedure to install and configure a <a href="https://about.gitlab.com/downloads/" target="_blank" rel="external">GitLab Community Edition Server</a>. Now, whenever we are running a server with some kind of hosting, whatever that may be, site-hosting, file-hosting, image-hosting or any other kind of hosting, proper backup is needed. Whatever we do to protect our server, for a cloud vps, it’s unlikely, but it may crash, or for some un-known reason, hosting account may be suspended, or host may go down for bankruptsy or server’s IP may get banned and the site can’t be accessed due to the firewall of the ISP. So, there are many reasons, that can result in no-access-to-the-server. And as a precaution, we need to take backup of the server regularly.</p>
+<p>For GitLab, backup means backup of configuration and application data both. <a href="https://docs.gitlab.com/omnibus/settings/backups.html" target="_blank" rel="external">More details</a>.</p>
+<p>To take backup, first we need to decide on the policy regarding storing the backup. Yes this is very important.</p>
+<p>It’s possible to take backup regularly, download the archive files to local computer and keep the archives in a convenient place. But, it’s good to have an automated process for this. And we should keep in mind that, our local machines can crash and if that happens, all the backups will go to vein. For this reason, we should select providers like <a href="https://aws.amazon.com/s3/" target="_blank" rel="external">AWS S3</a>, <a href="https://cloud.google.com/storage/" target="_blank" rel="external">Google CLoud Storage</a>, <a href="https://www.rackspace.com/cloud/files" target="_blank" rel="external">RackSpace Cloud Files</a> to store our backups. They have disater recovery processes and there is almost no chance that any file uploaded to these services, will be lost, unless we explicitly do this. GitLab depends on <a href="http://fog.io/" target="_blank" rel="external">Fog</a> for uploading backups to remote locations. And <code>Fog</code> supports only the above three cloud providers along with local storage. By comparing the pricing of the above three and considering the fact, mostly we will just upload and store the files, downloading will not happen very often, found that, AWS S3 has the least pricing. Refer to, <a href="https://aws.amazon.com/s3/pricing/" target="_blank" rel="external">AWS S3 pricing</a>, <a href="https://cloud.google.com/storage/pricing" target="_blank" rel="external">Google Cloud Storage pricing</a> and <a href="https://www.rackspace.com/cloud/files" target="_blank" rel="external">RackSpace Cloud Files pricing</a>. Observe that, there are three types of storage in AWS S3 and Google Cloud Storage. We can decide that, initially we will upload the files to <code>Standard Storage</code> and after some time move the files to <code>Glacier Storage</code> of AWS or <code>Nearline Storage</code> of Google and after a long period of time, say one year, we will actuallly delete the files. Beacause after such a long period, there will not remain any relevance of such old backup. In S3, we can explicitly set such rule. We will see.</p>
+<p>I’ve used AWS S3 to preserve the backed up data. If you want to use any other provider, this guide may not help you that much.</p>
+<p>Let’s start.</p>
+<p>Create one AWS account. If you’re an Amazon customer, you may either link the AWS account with the exisiting customer account or create a fresh one with new email. Amazon also gives a <a href="https://aws.amazon.com/free/" target="_blank" rel="external">12 month free tier</a>, upon signup of a new account. Here one credit or debit card <a href="https://payments.amazon.com/help/201754650" target="_blank" rel="external">eligible</a> for online transaction is required. Open <a href="https://aws.amazon.com/" target="_blank" rel="external">AWS Console</a>, click on the link/button <strong>Sign In to the Console</strong> and complete the procedure to sign up and in the last page click on the link, something like <strong>Sign In to Console</strong>. Check the email in the username box and select the <em>returning user</em> radio button and enter the password.</p>
+<p>To create a <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html" target="_blank" rel="external">bucket</a>, think <code>bucket</code> as a bowl to put your backups, go <a href="https://console.aws.amazon.com/s3/home" target="_blank" rel="external">here</a>. Click on the <strong>Create Bucket</strong> button. Give the bucket name, you decided and select a region (here choice of region doesn’t matter seriously unless you have some constraint), and if you need logging, click on <strong>Enable Logging</strong>, otherwise click on <strong>Create</strong>. Your bucket is ready to take files.</p>
+<p>Here we have to set the <code>Lifecycle</code> of the files. Click on the bucket, just created and click on the <strong>Properties</strong> button if not selected in prior. Click <strong>Lifecycle</strong> and create one rule. The wizard is self explaining. Fill it, at your own choice. I’ve set that, after 30 days, files would move to <code>Glacier Storage</code> and after 365 days from the creation time the files will be deleted. Now, let’s move towards to create users to configure the automated backup process.</p>
+<p>It’s not recommended to use the root user, the user, you have logged with, in any of the automated tasks. Because if someone with malicious intent gets access to our server, severe damage can happen. So, create one IAM user <a href="https://console.aws.amazon.com/iam/home" target="_blank" rel="external">here</a>. Click on the <strong>Users</strong> tab to the left and click on <strong>Create New User</strong>. You can create upto 5 users at a time. Here we need only one user. Give the username. Keep the checkbox <code>Generate an access key for each user</code> checked. Click <strong>Create</strong> and in the next page download the credential by clicking on the button <strong>Download Credentials</strong> and then click <strong>Close</strong>. It’ll be better to create a group with proper inline policy, so that, it’ll be easier to manage user permissions.</p>
+<p>Click on the <strong>Groups</strong> tab to the left. And create one group. Don’t attach any policy here. Just create the group. After creation, click on the group to open the details. Click on the <strong>Permissions</strong> and open the accordion <strong>Inline Policies</strong>. Click on the <strong>Click Here</strong> link. And select the button corresponding to <strong>Policy Generator</strong>. Select <code>S3</code> from the dropdown of <code>AWS Service</code>. And select the following actions for specified resources. </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Resource - &#34;arn:aws:s3:::&#60;bucket-name&#62;/*&#34; &#10;&#34;s3:AbortMultipartUpload&#34;,&#10;&#34;s3:GetBucketAcl&#34;,&#10;&#34;s3:GetBucketLocation&#34;,&#10;&#34;s3:GetObject&#34;,&#10;&#34;s3:GetObjectAcl&#34;,&#10;&#34;s3:ListBucketMultipartUploads&#34;,&#10;&#34;s3:PutObject&#34;,&#10;&#34;s3:PutObjectAcl&#34;&#10;&#10;# Resource - &#34;*&#34;&#10;&#34;s3:GetBucketLocation&#34;,&#10;&#34;s3:ListAllMyBuckets&#34;&#10;&#10;# Resource - &#34;arn:aws:s3:::&#60;bucket-name&#62;&#34;&#10;&#34;s3:ListBucket&#34;</span><br></pre></td></tr></table></figure>
+<p>After putting the resource name each time click on <strong>Add Statement</strong> and finally click on <strong>Next Step</strong> and give a name of the policy and create it. The policy will be listed in the <strong>Permission</strong> tab of the Group.</p>
+<p>Click on the <strong>Users</strong> tab in the group details page. Click <strong>Add Users to Group</strong> to add the user created previously.</p>
+<p>Now we have to configure our GitLab server to upload the backups to AWS. Open <code>/etc/gitlab/gitlab.rb</code> in your favourite editor and add the search for the text <code>manage_backup_path</code> and make the block like below. <a href="https://docs.gitlab.com/ce/raketasks/backup_restore.html" target="_blank" rel="external">More Details</a>.</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">gitlab_rails[<span class="string">'manage_backup_path'</span>] = <span class="keyword">true</span></span><br><span class="line">gitlab_rails[<span class="string">'backup_path'</span>] = <span class="string">"/path/to/backup/location/in/server"</span></span><br><span class="line"><span class="comment"># gitlab_rails['backup_archive_permissions'] = 0644 # See: http://doc.gitlab.com/ce/raketasks/backup_restore.html#backup-archive-permissions</span></span><br><span class="line"><span class="comment"># gitlab_rails['backup_pg_schema'] = 'public'</span></span><br><span class="line"><span class="comment"># gitlab_rails['backup_keep_time'] = 604800</span></span><br><span class="line">gitlab_rails[<span class="string">'backup_upload_connection'</span>] = &#123;</span><br><span class="line">   <span class="string">'provider'</span> =&gt; <span class="string">'AWS'</span>,</span><br><span class="line">   <span class="string">'region'</span> =&gt; <span class="string">'us-west-2'</span>,</span><br><span class="line">   <span class="string">'aws_access_key_id'</span> =&gt; <span class="string">'_secret_id_'</span>,</span><br><span class="line">   <span class="string">'aws_secret_access_key'</span> =&gt; <span class="string">'_secret_key_'</span></span><br><span class="line">&#125;</span><br><span class="line">gitlab_rails[<span class="string">'backup_upload_remote_directory'</span>] = <span class="string">'bucket-name'</span></span><br><span class="line">gitlab_rails[<span class="string">'backup_multipart_chunk_size'</span>] = <span class="number">104857600</span></span><br><span class="line">gitlab_rails[<span class="string">'backup_encryption'</span>] = <span class="string">'AES256'</span> <span class="comment"># Turns on AWS Server-Side Encryption with Amazon S3-Managed Keys for backups</span></span><br></pre></td></tr></table></figure>
+<p>For the codename of AWS regions, refer to <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region" target="_blank" rel="external">this</a>. AWS secret access key id and access key can be found in the downloaded credential file, when the IAM user was created. Replace <code>bucket-name</code> with proper name of the bucket, you had created in prior.</p>
+<p>Almost done. Now, we have to run only two commands.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># reconfigure GitLab with the modified configurations</span></span><br><span class="line">sudo gitlab-ctl reconfigure</span><br><span class="line"></span><br><span class="line"><span class="comment"># create first backup of the server</span></span><br><span class="line">sudo gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure>
+<p>If all the steps have configured correctly, you should be able to see a <code>.tar</code> file in the web view of the bucket.</p>
+<p>But, we don’t want to take backups manually. So, we will set a <a href="https://en.wikipedia.org/wiki/Cron" target="_blank" rel="external">cronjob</a> in our server. Invoke the command <code>sudo crontab -e -u root</code>, or you may want specify the useid, running the GitLab server. If the crontab has not been configured, it will ask for the default editor, you want to use. Select one by giving one number. Then the <code>cron-file</code> will be opened in the editor selected.</p>
+<p>Now, we have to understand a little bit about the syntax of the cron. It’s very easy. Just read <a href="http://kvz.io/blog/2007/07/29/schedule-tasks-on-linux-using-crontab/" target="_blank" rel="external">this</a> once. By the knowledge, we just acquired, let’s add one line to the end of the cron file and save the file. Cron will automatically create one cronjob for it.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># it says that run the backup command on the 7th day, i.e. &#10;# Saturday, depends on the server setting, at 23:59 hrs&#10;# and the backup command will take care of creating backups&#10;# and uploading them to AWS S3&#10;59 23 * * 7 /usr/bin/gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure>
+<p>It completes the automation of taking backups of application data, i.e. repositories, databases etc.</p>
+<p>We are not finished yet. We need to take backup of the <code>/etc/gitlab</code> folder also. But, as this folder does not change very frequently, decided to take backup of this folder manually. Specially if you have many users you may want to setup a cron job to create archives of this folder at regular intervals. Refer to <a href="https://docs.gitlab.com/omnibus/settings/backups.html" target="_blank" rel="external">this</a>.</p>
+<p>Code happily and be happy. :-)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;In the &lt;a href=&quot;/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/&quot;&gt;previous post&lt;/a&gt;, I tried to write a step by step pro
+    
+    </summary>
+    
+      <category term="CI" scheme="http://coderuse.com/categories/CI/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/CI/Cookbook/"/>
+    
+      <category term="System" scheme="http://coderuse.com/categories/CI/Cookbook/System/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/"/>
+    
+      <category term="Economical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/Economical/"/>
+    
+    
+      <category term="ci" scheme="http://coderuse.com/tags/ci/"/>
+    
+      <category term="gitlab" scheme="http://coderuse.com/tags/gitlab/"/>
+    
+      <category term="private-git" scheme="http://coderuse.com/tags/private-git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Installation And Configuration Of GitLab Server With CI</title>
+    <link href="http://coderuse.com/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/"/>
+    <id>http://coderuse.com/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/</id>
+    <published>2016-09-17T15:16:42.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>Please select <a href="http://releases.ubuntu.com/16.04/" target="_blank" rel="external">Ubuntu 16.04</a>, if it’s possible, as the server os, for both the servers. I’m using this. I’ll try to write the steps as os agnostic as possible and shall try to give proper links to install for other distributions.</p>
+<p>And of-course put the domain/sub-domain name you are going to use as the name of the server. It’s required.</p>
+<blockquote>
+<p>This is the second part of the series to configure a source control hosting. This post contains only installation steps. If you need any push to motivate youself to do this, you may find the first part helpful.</p>
+<p><a href="/2016/09/How-I-Host-Private-GitLab-With-CI-For-Less-Than-Four-Euro/">Here</a> is the first part, regarding choice of hosting and some inspiration.</p>
+</blockquote>
+<p>I’ve used the <a href="https://docs.gitlab.com/omnibus/" target="_blank" rel="external">Omnibus</a> package for installation. Found this as most convenient one. And I’ve seen that, it’s possible to tweak all the services installed by this package. You can also opt for installation of individual components of GitLab. You can find lot of options <a href="https://about.gitlab.com/installation/" target="_blank" rel="external">here</a>.</p>
+<p>Before we start the installation, we need to log into the system by SSH and update our system. If you’re using any version of Linux or Mac, you have your terminal and the command <code>ssh</code> is available. For Windows use <a href="http://www.putty.org/" target="_blank" rel="external">Putty</a>. <a href="http://www.wikihow.com/Use-SSH" target="_blank" rel="external">More details</a>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># first update the registry</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="comment"># upgrade if any update available</span></span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>Now follow the instructions described <a href="https://about.gitlab.com/downloads" target="_blank" rel="external">here</a> for <a href="https://about.gitlab.com/features/" target="_blank" rel="external">GitLab Community Edition Server</a>. Instructions have been written quite clearly.</p>
+<blockquote>
+<p>Select <code>Internet Site</code> during Postfix installation</p>
+</blockquote>
+<p>It may happen that, your server provider has blocked the SMTP port by default. Check if mails are going from the server.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install mailutils</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"This is the body of the email"</span> | mail <span class="operator">-s</span> <span class="string">"This is the subject line"</span> to@existingmail.address</span><br></pre></td></tr></table></figure>
+<p>If not, configure the mail server properly. It’ll be needed by GitLab.</p>
+<p>But before executing the command <code>gitlab-ctl reconfigure</code>, we have to do something to configure this server with SSL.</p>
+<p>Please don’t use the server with IP. Use a domain name with SSL. It’ll give a level of security inside the network layer. <a href="https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html" target="_blank" rel="external">More details</a>.</p>
+<p>Theoretically you can use a IP for your server hostname. But, if you are configuring a git server for yourself. Give it a name. Even a subdomain like <code>subdomain.domain.tld</code> looks good. And there are lots of providers selling cheap ssl certificates. Get one of them. I’ve seen <a href="https://comodosslstore.com/promoads/cheap-comodo-ssl.aspx" target="_blank" rel="external">Comodo Positive SSL’s</a> are the cheapest ones and will show a green lock in the address bar of the browser.</p>
+<p>It’s also possible to use self-signed certificate. But that will show a red lock with cross in the address bar. Main difference will be the <code>.crt</code> certificate we are going to use for the server. To configure SSL for an HTTP server we need one <code>.key</code> and corresponding <code>.crt</code> file. Details about private keys and csr’s are described <a href="https://www.digitalocean.com/community/tutorials/openssl-essentials-working-with-ssl-certificates-private-keys-and-csrs" target="_blank" rel="external">here</a>. To summerize, for self issued certificate, first generate a private key and a <code>.crt</code> file.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># replace the domain with a name you like</span></span><br><span class="line">openssl req \</span><br><span class="line">       -newkey rsa:<span class="number">2048</span> -nodes -keyout domain.key \</span><br><span class="line">       -x509 -days <span class="number">365</span> -out ssl.crt</span><br><span class="line"></span><br><span class="line"><span class="comment"># put the files into proper folder so that GitLab can get them</span></span><br><span class="line">sudo mkdir -p /etc/gitlab/ssl</span><br><span class="line">sudo chmod <span class="number">700</span> /etc/gitlab/ssl</span><br><span class="line">sudo cp domain.key ssl.crt /etc/gitlab/ssl/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># also add the keys to the system</span></span><br><span class="line">sudo cp ssl.crt /etc/ssl/certs/gitlab.pem</span><br><span class="line">sudo cat /etc/ssl/certs/gitlab.pem &gt; /etc/ssl/certs/ca-certificates.crt</span><br></pre></td></tr></table></figure>
+<p>If you’ve bought a SSL certificate from a provider like Comodo, you need one <code>.csr</code> file to upload to the site to issue a <code>domain validated certificate</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">openssl req \</span><br><span class="line">       -newkey rsa:<span class="number">2048</span> -nodes -keyout domain.key \</span><br><span class="line">       -out domain.csr</span><br></pre></td></tr></table></figure>
+<p>Upload the <code>.csr</code> file to the site and after validation/completion of the required steps you can download a <code>.zip</code> file containing either two files like <code>domain.crt</code> and  something like <code>domain-bundle.crt</code> or 4 files, such as <code>domain.crt</code>, <code>AddTrustExternalCARoot.crt</code>, <code>COMODORSAAddTrustCA.crt</code> and <code>COMODORSADomainValidationSecureServerCA.crt</code>. This is the case of Comodo Positive SSL. If you find it otherwise, please consider your SSL issuer’s document about this.</p>
+<p>Either way, you need to concatenate all the <code>.crt</code> files into one.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># if you've two .crt files</span></span><br><span class="line">cat domain.crt domain-bundle.crt &gt; ssl.crt</span><br><span class="line"></span><br><span class="line"><span class="comment"># if you've four different files</span></span><br><span class="line">cat domain.crt COMODORSADomainValidationSecureServerCA.crt  COMODORSAAddTrustCA.crt AddTrustExternalCARoot.crt &gt; ssl.crt</span><br><span class="line"></span><br><span class="line"><span class="comment"># put the files into proper folder so that GitLab can get them</span></span><br><span class="line">sudo mkdir -p /etc/gitlab/ssl</span><br><span class="line">sudo chmod <span class="number">700</span> /etc/gitlab/ssl</span><br><span class="line">sudo cp domain.key ssl.crt /etc/gitlab/ssl/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># also add the keys to the system</span></span><br><span class="line">sudo cp ssl.crt /etc/ssl/certs/gitlab.pem</span><br><span class="line">sudo cat /etc/ssl/certs/gitlab.pem &gt; /etc/ssl/certs/ca-certificates.crt</span><br></pre></td></tr></table></figure>
+<p>To configure your server with the domain name you decided, you have to register the domain name and point the domain to the server or you can use sub-domain of an existing domain. For subdomain create just one <a href="https://en.wikipedia.org/wiki/CNAME_record" target="_blank" rel="external">CNAME</a>. <a href="https://support.google.com/a/answer/47283?hl=en" target="_blank" rel="external">Here</a> you can find some details. Open the generic steps. Use the name you decided for the subdomain as the alias.</p>
+<p>To use a root domain like <code>domain.tld</code>, you need to create one A-record and one CNAME record. <a href="https://support.google.com/a/answer/48090?hl=en" target="_blank" rel="external">Here</a>, you can read about various record types for DNS, <a href="https://support.cloudflare.com/hc/en-us/articles/200169096-How-do-I-add-A-records-" target="_blank" rel="external">here</a> is one guide to add A-record and <a href="https://www.digitalocean.com/community/questions/how-to-add-www-record-to-domain" target="_blank" rel="external">here</a>, you will get the details regarding how to point your domain to your server. For that you need to know the IP of the server. Either get it from the mail, you got after buying the server or server provider’s control panel or by the following method, if you are logged into your server by ssh.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># icanhazip is a free service for ip lookup</span></span><br><span class="line">curl http://icanhazip.com</span><br><span class="line">xx.xx.xx.xx <span class="comment"># server ip</span></span><br></pre></td></tr></table></figure>
+<p>We are in the last phase of configuration of our GitLab server. Open the file <code>/etc/gitlab/gitlab.rb</code> and add/modify some lines in it. Replace the <code>domain</code> carefully.</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line">external_url <span class="string">"https://domain.tld"</span></span><br><span class="line">nginx[<span class="string">'redirect_http_to_https'</span>] = <span class="keyword">true</span></span><br><span class="line">nginx[<span class="string">'ssl_certificate'</span>] = <span class="string">"/etc/gitlab/ssl/ssl.crt"</span></span><br><span class="line">nginx[<span class="string">'ssl_certificate_key'</span>] = <span class="string">"/etc/gitlab/ssl/domain.key"</span></span><br><span class="line">nginx[<span class="string">'proxy_set_headers'</span>] = &#123;</span><br><span class="line">  <span class="string">"X-Forwarded-Proto"</span> =&gt; <span class="string">"http"</span>,</span><br><span class="line">  <span class="string">"CUSTOM_HEADER"</span> =&gt; <span class="string">"VALUE"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, execute <code>sudo gitlab-ctl reconfigure</code>. It’ll take some time, depending on the speed of the server. And, if everything goes ok, we should be able to open GitLab client in the browser at <code>https://domain.tld</code>, with a green lock of SSL.</p>
+<p>Congratulations!!!</p>
+<p>First the browser will be redirected to set the password of the initial administrator account <code>root</code>. Set the password and log into the dashboard by entering the username <code>root</code> and the password you’ve just set. Click on the small range icon to the right hand side of the top bar and then click on the settings icon to left. There you’ll find lot of options to customize. Probably you need to stop the public Sign-up first and use two-factor authentication.</p>
+<p>Your server is set-up. Now we have to configure our CI. This is pretty straight forward.</p>
+<p>Upload the <code>ssl.crt</code> to the server, intended for the CI. SSH into this server.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment"># for those, who have configured with self signed </span></span><br><span class="line"><span class="comment"># certificate, following steps are required </span></span><br><span class="line"><span class="built_in">cd</span> /path/to/ssl.crt</span><br><span class="line">sudo cp ssl.crt /etc/ssl/certs/gitlab.pem</span><br><span class="line">sudo cat /etc/ssl/certs/gitlab.pem &gt; /etc/ssl/certs/ca-certificates.crt</span><br></pre></td></tr></table></figure>
+<p>First <a href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/executors/README.md" target="_blank" rel="external">decide</a> about the runner, and follow the <a href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/linux-repository.md" target="_blank" rel="external">steps</a>. There are also some links to important documents <a href="https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/executors/README.md" target="_blank" rel="external">here</a>.</p>
+<p>Create a new project. Configure <code>.gitlab-ci.yml</code> and enjoy build at every push. Don’t forget to add one badge to the <code>README</code>, will come in the format, <code>![Build Status](https://domain.tld/namespace/project-name/badges/branch-name/build.svg)</code>. </p>
+<p>Happy coding. Try to live in your own terms. :-)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Please select &lt;a href=&quot;http://releases.ubuntu.com/16.04/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Ubuntu 16.04&lt;/a&gt;, if it’s possible, as the serve
+    
+    </summary>
+    
+      <category term="CI" scheme="http://coderuse.com/categories/CI/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/CI/Cookbook/"/>
+    
+      <category term="System" scheme="http://coderuse.com/categories/CI/Cookbook/System/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/"/>
+    
+      <category term="Economical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/Economical/"/>
+    
+    
+      <category term="ci" scheme="http://coderuse.com/tags/ci/"/>
+    
+      <category term="gitlab" scheme="http://coderuse.com/tags/gitlab/"/>
+    
+      <category term="private-git" scheme="http://coderuse.com/tags/private-git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>How I Host Private GitLab With CI For Less Than Four Euro</title>
+    <link href="http://coderuse.com/2016/09/How-I-Host-Private-GitLab-With-CI-For-Less-Than-Four-Euro/"/>
+    <id>http://coderuse.com/2016/09/How-I-Host-Private-GitLab-With-CI-For-Less-Than-Four-Euro/</id>
+    <published>2016-09-16T04:30:34.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>We the creators must take good care of what we create. I, as a software developer write code. A journalist creates new articles. A researcher writes thesis. And so on. These, what we create, does not come without cost. Here the cost is, we have to conceive an idea. Do research on that idea. Collect documents, which have been created by others,on that idea or related to that idea. Read/analyse the collected resources. Think and think over the topic. For days. For months. For some, maybe some years. The creator of Pokemon Go, conceived the idea in 2010. And finally could publish in 2016. It takes time to create. Creation costs ourselves.</p>
+<p>So, we must take good care of what we create. We must preserve them. And we should take it seriously.</p>
+<blockquote>
+<p>This is the first part of a series to configure a source control hosting with some push towards doing it for ourselves</p>
+<p>Second part regarding installing and configuring GitLab community edition server is <a href="/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/">here</a>.</p>
+</blockquote>
+<p>Now-a-days everybody is doing data-mining. Big corporations are pioneering this trend. Lot of lawsuits have been filed, is filed on a regular basis. Whatever we do, are persisted and they are analysed by good AI algorithms. Every corporations are <a href="https://techcrunch.com/2015/12/25/investing-in-artificial-intelligence/" target="_blank" rel="external">investing</a> trillions of dollars for AI. The data-mining are not personally targetted, at-least what they claim. But, <a href="http://mashable.com/2016/09/14/standard-innovation-vibrator-law-suit" target="_blank" rel="external">no body is stopping them</a> to do that in the age of aggressive marketing.    </p>
+<blockquote>
+<p>Creation costs ourselves. So, we must keep them on our own terms.</p>
+</blockquote>
+<p>I write code. So, <code>mimetype</code> of my creation is <code>application/text</code> aka, basically I create text-files. For this kind of documents, any version control systems like <a href="https://en.wikipedia.org/wiki/Git" target="_blank" rel="external">Git</a>, <a href="https://en.wikipedia.org/wiki/Mercurial" target="_blank" rel="external">Mercurial</a>, <a href="https://en.wikipedia.org/wiki/GNU_Bazaar" target="_blank" rel="external">Bazaar</a> is enough. I prefer Git, as I have to use it on a daily basis for my job. So, I had opted for premium subscription of Github. They have recently allowed unlimited private repositories and just announced a <a href="https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features" target="_blank" rel="external">large bouque</a> of features, to help developers. But, it offended me and <a href="https://wptavern.com/github-introduces-unlimited-private-repositories-hikes-prices-for-organizations" target="_blank" rel="external">lot of others</a>, when Github <a href="https://github.com/blog/2164-introducing-unlimited-private-repositories" target="_blank" rel="external">increased their price</a> for organisations. I don’t manage any organisation, but I realized that we are so helpless before the <em>strategical decisions aka whims</em> of the big corporations. They can do anything to us as we have agreed their terms, when signed up for the services. Do you read the terms? I don’t, rather can’t. I find them like a spiraling web of stairs, steps made of jargons from the <em>world of law</em>.</p>
+<p>We can’t go absolutely beyond the reach of the big corporations. But at-least we can try to take some steps towards making our life <em>private</em> and live <em>on our own terms</em>. :-)</p>
+<p>On this note, let’s configure a private instance of Git Server. But maintaining a Git server and other companion tools such as source code browser, decent web interface to manage the server, we also need a issue tracker, projects need wiki’s and of-cource user management of such a server is not a matter of joke. We need a good packaged software such as Bitbucket Server or GitLab, which offer all such features. Bitbucket is quite pricey, if team size grows beyond 10. Also we have to maintain a VPS, that itself incur a recurring cost, we don’t want to spend on Server Software. So, we choose GitLab Community Edition. It’s free. Though it <a href="https://about.gitlab.com/features/" target="_blank" rel="external">lacks some features</a> of the pro edition, available ones are enough for small organisations.</p>
+<p>In this series I’m going to write step-by-step process to configure GitLab Community Edition server along with adding support for SSL.</p>
+<p>This is going to be long. So, buckle up.</p>
+<p>But before we start the installation, we must get a server to host. Now, here I’ve some words to say. As we have to preserve something, whatever it may be, it should not be like that, all our saved assets be lost, if the server crashes. So, we have to take backups at regular interval, may be every day. And along with that, we should prefer cloud servers as they are more stable than dedicated ones. Actually cloud servers are made as an abstraction of the actual hardware. So, even if one or two physical units from a cloud cluster crashes, the servers, built upon them takes another computational units as failover.</p>
+<p>When we host/run GitLab, a bunch of services run simultaneously. <a href="http://redis.io" target="_blank" rel="external">Redis</a>, <a href="https://www.postgresql.org/" target="_blank" rel="external">PostgreSQL</a>, <a href="https://www.nginx.com/" target="_blank" rel="external">Nginx</a>, Workhorse (a background process), <a href="http://sidekiq.org/" target="_blank" rel="external">Sidekiq</a>, <a href="http://unicorn.bogomips.org/" target="_blank" rel="external">Unicorn</a>, <a href="https://docs.gitlab.com/omnibus/settings/logs.html" target="_blank" rel="external">LogRotate</a>. So, we need at least 2 cores and at-least 2GB memory, so that server does not get too much slow or unresponsive. <a href="https://gitlab.cern.ch/help/install/requirements.md" target="_blank" rel="external">More details</a>.</p>
+<p>For cloud servers there are many options, <a href="https://www.digitalocean.com/pricing/" target="_blank" rel="external">DigitalOcean</a>, <a href="https://www.vultr.com/pricing/" target="_blank" rel="external">Vultr</a>, <a href="https://www.linode.com/pricing" target="_blank" rel="external">Linode</a>, <a href="https://aws.amazon.com/ec2/pricing/" target="_blank" rel="external">AWS</a>, <a href="https://cloud.google.com/compute/pricing" target="_blank" rel="external">Google Cloud</a>, <a href="https://azure.microsoft.com/en-us/pricing/details/virtual-machines/" target="_blank" rel="external">Microsoft Azure</a>, and so many others. Personally I use <a href="https://www.scaleway.com/" target="_blank" rel="external">Scaleway</a>, a brand from <a href="https://www.online.net/en" target="_blank" rel="external">Online.net</a> to host the GitLab server. There I got one cloud server (they use <a href="https://www.scaleway.com/faq/server/#-Which-hypervisor-do-you-use" target="_blank" rel="external">KVM</a>) with 2 cores, 2GB primary memory aka RAM and 50GB SSD hard disk at €2.99/pm. And for CI, I use lowest offerring from <a href="https://www.arubacloud.com/" target="_blank" rel="external">Aruba Cloud</a>, a small vps with 1 core, 1GB RAM and 20GB SSD for €1/pm. You can also check for low cost KVM servers in UK from <a href="http://www.rackulous.com/uk-kvm-vps.php" target="_blank" rel="external">Rackulous</a> or checkout low cost offers, regularly published in <a href="https://lowendbox.com/" target="_blank" rel="external">lowendbox</a>.</p>
+<p>Hence, it’s concluded that, it’s possible to host GitLab Community Edition Server with CI for €3.99/pm, less than €4/pm. :-)</p>
+<p>If you have selected and got your VPS, we can go for the next step. <a href="/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/">Install and configure GitLab server</a>. :-)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;We the creators must take good care of what we create. I, as a software developer write code. A journalist creates new articles. A resear
+    
+    </summary>
+    
+      <category term="CI" scheme="http://coderuse.com/categories/CI/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/CI/Cookbook/"/>
+    
+      <category term="System" scheme="http://coderuse.com/categories/CI/Cookbook/System/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/"/>
+    
+      <category term="Economical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/Economical/"/>
+    
+    
+      <category term="ci" scheme="http://coderuse.com/tags/ci/"/>
+    
+      <category term="gitlab" scheme="http://coderuse.com/tags/gitlab/"/>
+    
+      <category term="private-git" scheme="http://coderuse.com/tags/private-git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CI with Vexor</title>
+    <link href="http://coderuse.com/2016/09/CI-with-Vexor/"/>
+    <id>http://coderuse.com/2016/09/CI-with-Vexor/</id>
+    <published>2016-09-10T19:34:51.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>Today I’ve configured CI with <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a> for this blog. Actually I use <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> to generate a static site and then upload the generated static content to the remote machine, hosting the blog. Quite simple.</p>
+<p>Generating the static pages and then upload them to the remote machine takes a lot of effort beside writing a post. And the job is so repetitive. So, CI is a very good use case for this. But, as I use private repo for this, most of the prominent CI hosts charge a lot to build for private repos. After searching a little bit, got the name of <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a>. The best thing is that, they are not limiting you, 1 build unit, 2 build units, private repo etc. You start with free 100 build minutes, then $0.015/min. Quite cheap. And no prior commitment with huge monthly subscriptions (Others are really pricey. I don’t understand, why do they charge over $30/month for a single unit, while builds for most of the normal projects does not go over 1hr. And how many builds per day a project can see. I don’t know.) So, I pleased with the pricing matrix of <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a>.</p>
+<p>One problem with them is they have not yet completed their documentation fully. And their whole doc is full of examples of building Ruby applications. Probably they are fond of Ruby. I’ve no complains. But they should include at-least some full examples for NodeJS. Then I came across one of the features in their build system. You can log into the build container for 30 mins (if you enable ssh) to debug. So, nice feature. Probably use only once for one project but that’s big.</p>
+<p>So, I started to configure. First steps are quite straight-forward. Go to <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a>. Sign up with Github or GitLab or Bitbucket account. Enable your repo. You should be able to see the repo in your <a href="https://ci.vexor.io/ui/" target="_blank" rel="external">Dashboard</a>. As soon as the repo is connected, it will try to start the build. But, my repo was not configured. Naturally, first build failed. Then I started to configure.</p>
+<p>First, added one file to the root of the repo by the name <code>.vexor.yml</code> (<code>vexor.yml</code>, without the leading dot is also permissible).</p>
+<p>As I want to build for NodeJS. I added <code>language: node_js</code>. They have support for several versions of Node. I added for <code>6.1.0</code>.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">language: node_js&#10;node_js:&#10;- &#34;6.1.0&#34;</span><br></pre></td></tr></table></figure>
+<p>I use <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> to generate the site. And this needs <code>hexo-cli</code> to be installed globally. So, I added <code>npm install -g hexo-cli</code> and of-course <code>npm install</code> to the <code>install</code> section.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">install:&#10;- npm install -g hexo-cli&#10;- npm install</span><br></pre></td></tr></table></figure>
+<p>As I’ve included one post-install hook to the <code>package.json</code> with the command <code>hexo generate</code>, practically I’ve nothing to do for generation of static content in the <code>script</code> section.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">  ,</span><br><span class="line">  "scripts": &#123;</span><br><span class="line">    "postinstall": "hexo generate"</span><br><span class="line">  &#125;,</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Now, I need to upload the generated content to the remote site. So, added some lines (with the help of <a href="https://gist.github.com/domenic/ec8b0fc8ab45f39403dd" target="_blank" rel="external">Domenic</a>) to the <code>before_script</code> section to add the <code>ssh-key</code> to <code>ssh agent</code>.</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">before_script:&#10;- chmod 600 /home/vexor/.ssh/id_rsa&#10;- eval `ssh-agent -s`&#10;- ssh-add /home/vexor/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<p>The available key in the <code>.ssh</code> is the private key you have to add in the settings of the project. You can generate one key pair by <code>ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;</code>. <a href="https://help.github.com/articles/generating-an-ssh-key/" target="_blank" rel="external">More detail</a>. And add the content of the public key of the pair to a file named <code>authorized_keys</code> in the <code>.ssh</code> directory of <code>home</code> of the user, you want to deploy with, to the remote machine.</p>
+<p>To deploy I’ve added one shell script file, named <code>deploy</code> in my repo. (taken from <a href="https://coderwall.com/p/moabdw/using-rsync-to-deploy-a-website-easy-one-liner-command" target="_blank" rel="external">here</a>). Only I modified the <code>userid</code>, <code>server address</code>, added <code>cd public</code> (from where we need to upload), the remote directory path and removed the <code>exclude-from</code> flag.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span><br><span class="line"></span></span><br><span class="line"><span class="built_in">cd</span> public</span><br><span class="line"><span class="variable">$ERRORSTRING</span>=<span class="string">"Error. Please make sure you've indicated correct parameters"</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> <span class="operator">-eq</span> <span class="number">0</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="variable">$ERRORSTRING</span>;</span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$1</span> == <span class="string">"live"</span> ]</span><br><span class="line">    <span class="keyword">then</span></span><br><span class="line">        <span class="keyword">if</span> [[ -z <span class="variable">$2</span> ]]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"Running dry-run"</span></span><br><span class="line">                rsync --dry-run -az --force --delete --progress <span class="operator">-e</span> <span class="string">"ssh -p22"</span> ./ build@xx.xx.xx.xx:/usr/share/nginx/html</span><br><span class="line">        <span class="keyword">elif</span> [ <span class="variable">$2</span> == <span class="string">"go"</span> ]</span><br><span class="line">            <span class="keyword">then</span></span><br><span class="line">                <span class="built_in">echo</span> <span class="string">"Running actual deploy"</span></span><br><span class="line">                rsync -az --force --delete --progress <span class="operator">-e</span> <span class="string">"ssh -p22"</span> ./ build@xx.xx.xx.xx:/usr/share/nginx/html</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="built_in">echo</span> <span class="variable">$ERRORSTRING</span>;</span><br><span class="line">        <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>This file <code>deploy</code> need to executable. So, added <code>chmod +x ./deploy</code> to the <code>before_script</code> section.</p>
+<p>And finally in the <code>script</code> section added <code>./deploy live go</code>, which will deploy the generated content to the remote directory, if all things go successfully.</p>
+<p>If anyone needs the full glimpse of <code>.vexor.yml</code>, here it is,</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">language: node_js&#10;node_js:&#10;- &#34;6.1.0&#34;&#10;install:&#10;- npm install -g hexo-cli&#10;- npm install&#10;before_script:&#10;- chmod 600 /home/vexor/.ssh/id_rsa&#10;- eval `ssh-agent -s`&#10;- ssh-add /home/vexor/.ssh/id_rsa&#10;- chmod +x ./deploy&#10;script: ./deploy live go</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Today I’ve configured CI with &lt;a href=&quot;https://vexor.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vexor&lt;/a&gt; for this blog. Actually I use &lt;a href=
+    
+    </summary>
+    
+      <category term="CI" scheme="http://coderuse.com/categories/CI/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/CI/Cookbook/"/>
+    
+      <category term="System" scheme="http://coderuse.com/categories/CI/Cookbook/System/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/CI/Cookbook/System/Technical/"/>
+    
+    
+      <category term="ci" scheme="http://coderuse.com/tags/ci/"/>
+    
+      <category term="nodejs" scheme="http://coderuse.com/tags/nodejs/"/>
+    
+      <category term="vexor" scheme="http://coderuse.com/tags/vexor/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Moving new Git branch with different history to master</title>
+    <link href="http://coderuse.com/2016/08/Moving-new-Git-branch-with-different-history-to-master/"/>
+    <id>http://coderuse.com/2016/08/Moving-new-Git-branch-with-different-history-to-master/</id>
+    <published>2016-08-22T10:42:04.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>Today I’ve learned a new thing about Git. Actually some days back, we started re-implementation of one of our old web app. Previously, the app was written with Jquery. Some days back, we felt that, it would be better, if we could use ReactJs for the app, as it only shows updates, and each of the updates has it’s own life cycle. So, thought this would be a good use case to leverage the powerful features of ReactJs.</p>
+<p>Anyway, as this new development happens to be completely different than the previous one, first decided to create a new repository altogether. But, after some considerations, came to the conclusion, that it would be wrong, if we create a completely new repository for a software, that will do essentially the same things as the previous one.</p>
+<p>So, created one orphan branch from master.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout master</span><br><span class="line">git checkout -b --orphan new_version</span><br><span class="line">git rm &lt;all-the-unnecessary-files&gt;</span><br><span class="line"><span class="comment">## Make changes in the code base</span></span><br><span class="line">git add .</span><br><span class="line">git commit -am <span class="string">"new_version: Initialize"</span></span><br><span class="line"><span class="comment"># Generally the remote is 'origin', if not change as required</span></span><br><span class="line">git push origin new_version</span><br></pre></td></tr></table></figure>
+<p>And continued development on that.</p>
+<p>Until this stage, there was no problem. But, problem started, when we tried to push this branch to master. We could not merge this branch to master, as that would nullify the effort to make a new commit history for the new version.</p>
+<p>Decided to delete the master branch and create new master branch from <code>new_version</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Create a backup of the old version</span></span><br><span class="line">git checkout master</span><br><span class="line">git checkout -b old_version</span><br><span class="line"><span class="comment"># And push the backup to remote</span></span><br><span class="line">git push origin old_version</span><br><span class="line"><span class="comment"># '-D' is needed instead of '-d', as current branch </span></span><br><span class="line"><span class="comment"># and 'master' branch has different commit history</span></span><br><span class="line"><span class="comment">##### Following error will come</span></span><br><span class="line"><span class="comment"># error: The branch 'master' is not fully merged.</span></span><br><span class="line"><span class="comment"># If you are sure you want to delete it, run 'git branch -D master'.</span></span><br><span class="line">git branch -D master</span><br></pre></td></tr></table></figure>
+<p>Now, we can’t delete the master branch from remote straight away. It would give the following error.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">To git@github.com:username/repo.git</span><br><span class="line"> ! [remote rejected] master (refusing to delete the current branch: refs/heads/master)</span><br><span class="line">error: failed to push some refs to <span class="string">'git@github.com:username/repo.git'</span></span><br></pre></td></tr></table></figure>
+<p>As our repository is hosted in Github, we could change the default branch temporarily to <code>new_version</code> in the branches tab of settings page of the repository. And delete the <code>master</code> branch in <code>remote</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin :master</span><br><span class="line"><span class="comment"># To git@github.com:username/repo.git</span></span><br><span class="line"><span class="comment">#  - [deleted]         master</span></span><br></pre></td></tr></table></figure>
+<p>Now, create the new <code>master</code> branch from <code>new_version</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout new_version</span><br><span class="line">git checkout -b master</span><br><span class="line"><span class="comment"># And check-in this new master branch</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p>Now, change the <code>default</code> branch to <code>master</code> in Github.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Today I’ve learned a new thing about Git. Actually some days back, we started re-implementation of one of our old web app. Previously, th
+    
+    </summary>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/Cookbook/"/>
+    
+      <category term="Programming" scheme="http://coderuse.com/categories/Cookbook/Programming/"/>
+    
+      <category term="Software Development" scheme="http://coderuse.com/categories/Cookbook/Programming/Software-Development/"/>
+    
+    
+      <category term="branch" scheme="http://coderuse.com/tags/branch/"/>
+    
+      <category term="git" scheme="http://coderuse.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Show modal dialog in IE with IFrame</title>
+    <link href="http://coderuse.com/2016/04/Show-modal-dialog-in-IE-with-IFrame/"/>
+    <id>http://coderuse.com/2016/04/Show-modal-dialog-in-IE-with-IFrame/</id>
+    <published>2016-04-27T21:12:04.000Z</published>
+    <updated>2017-02-24T20:22:27.256Z</updated>
+    
+    <content type="html"><![CDATA[<p>We had used modal dialog of IE, in one of our old projects. What we did there, opened one modal dialog, with one url to a external website. In the external page (not maintained by us), one variable <code>returnValue</code> was set to <code>window</code> with the intended value (one object actually), and we used to get the resultant from the return value of <code>showModalDialog</code>, as this returns the value present in <code>window.returnValue</code> of the modal.</p>
+<a id="more"></a>
+<p>Here is the bare minimum code of the markup creating the modal.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index.html --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">title</span>&gt;</span>Show Modal Test<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"name"</span> <span class="attribute">disabled</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"button"</span> <span class="attribute">id</span>=<span class="value">"button1"</span> <span class="attribute">onclick</span>=<span class="value">"openWindows()"</span> <span class="attribute">value</span>=<span class="value">"Enter Name"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">openWindows</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="comment">// Get the return value set by the modal window</span></span><br><span class="line">      <span class="keyword">var</span> getval = <span class="built_in">window</span>.showModalDialog(<span class="string">'modal.html'</span>);</span><br><span class="line">      <span class="built_in">window</span>.document.getElementById(<span class="string">'name'</span>).value = getval.data;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>And this is the markup of the modal (maintained by third party). The <code>returnValue</code> property in the <code>window</code> object of <code>modal</code>, is returned by the <code>showModalDialog</code> method.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- modal.html --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span> <span class="attribute">lang</span>=<span class="value">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">title</span>&gt;</span>Modal Window<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"inputName"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">button</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">id</span>=<span class="value">"btnReturnValues"</span> <span class="attribute">onclick</span>=<span class="value">"ReturnValues()"</span>&gt;</span>Submit<span class="tag">&lt;/<span class="title">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span> <span class="attribute">type</span>=<span class="value">"text/javascript"</span>&gt;</span><span class="javascript"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">ReturnValues</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> vReturnValue = <span class="built_in">document</span>.getElementById(<span class="string">'inputName'</span>).value;</span><br><span class="line">      <span class="built_in">window</span>.returnValue = &#123;</span><br><span class="line">          data: vReturnValue</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="built_in">window</span>.close();</span><br><span class="line">    &#125;</span><br><span class="line">  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line">  </span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>After some time, due to some sizing issue of the modal dialog, we used one intermediary HTML page as the content of the modal. And, in that page we navigated to the external link, via an IFrame, setting the dimention. So, we added the url of the container (where the IFrame resides) as the first parameter of the method <code>showModalDialog</code> and sending the url of the intended url as <code>dialogArguments</code> (<a href="https://goo.gl/a3lcwG" target="_blank" rel="external">refer to</a>).</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> getval = w.showModalDialog(<span class="string">'container.html'</span>, <span class="string">'modal.html'</span>, <span class="string">'dialogWidth:960px; dialogHeight: 670px; resizable: yes'</span>);</span><br></pre></td></tr></table></figure>
+<p>And added the container page. Modifications were not required in the third party page.</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- container.html --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="doctype">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">title</span>&gt;</span>Conatiner<span class="tag">&lt;/<span class="title">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="title">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">onload</span>=<span class="value">"setStyle()"</span> <span class="attribute">name</span>=<span class="value">"iframeExternalLink"</span> <span class="attribute">id</span>=<span class="value">"iframeExternalLink"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span><br><span class="line">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">var</span> url = <span class="built_in">window</span>.dialogArguments;</span><br><span class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'iframeExternalLink'</span>).src = url;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Explicitly setting the height of the IFrame. Even if the third-party page comes bogger, scroll bars will come</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setStyle</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'iframeExternalLink'</span>).height = <span class="string">'670px'</span>;</span><br><span class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'iframeExternalLink'</span>).width = <span class="string">'960px'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>That was working fine, till last week. After one patch (Current version: IE11-11.0.9600.18204, IE10-10.0.9200.17640), the procedure is not working as previous. If we examine closely, this should not work previously also. As from the external web page, the <code>returnValue</code> property is set in the <code>window</code>, that property is set theoretically to the <code>window</code> object of the IFrame itself. But somehow it was working.</p>
+<p>As we are opening third party url, it’s a long procedure, to tell them to change in their code. So, we were searching for a solution, so that, third party code should not needed to be affected.</p>
+<p>After some brainstorming, we thought that, in the <code>onbeforeunload</code> event (called before closing of a window), in the <code>container.html</code>, we can set the <code>returnValue</code> property in the <code>window</code> object of the page, where the IFrame resides.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.onbeforeunload = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> win = <span class="built_in">window</span>.frames[<span class="string">'iframeExternalLink'</span>];</span><br><span class="line">  <span class="built_in">window</span>.returnValue = win.returnValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This was working. But, that again didn’t work. As, the third party website is using Telerik, the library sets the <code>onbeforeunload</code> as it requires. So, our event handler is at all not fired.</p>
+<p>What to do now?</p>
+<p>We found our second approach. But this approach requires modification in the third party code. In the function, where the <code>window.close</code> is called, they need to call one method <code>setReturnValue</code> of <code>parent</code>, which in turn will set the <code>returnValue</code> in the parent (the modal window) or directly set the value of the property <code>returnValue</code> in <code>window.parent</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;!-- In container.html --&gt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setReturnValue</span> (<span class="params">returnVal</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">window</span>.returnValue = returnVal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>and in the external web page: </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In modal.html</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ReturnValues</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> vReturnValue = <span class="built_in">document</span>.getElementById(<span class="string">'inputName'</span>).value;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Call the method in parent to set the returnValue</span></span><br><span class="line">  <span class="built_in">window</span>.parent.setReturnValue( &#123;</span><br><span class="line">    data: vReturnValue</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="built_in">window</span>.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>or in short,</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// In modal.html</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span>.parent.returnValue = &#123;</span><br><span class="line">  data: vReturnValue</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>This would solve the problem. Easy solution. Right?</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;We had used modal dialog of IE, in one of our old projects. What we did there, opened one modal dialog, with one url to a external website. In the external page (not maintained by us), one variable &lt;code&gt;returnValue&lt;/code&gt; was set to &lt;code&gt;window&lt;/code&gt; with the intended value (one object actually), and we used to get the resultant from the return value of &lt;code&gt;showModalDialog&lt;/code&gt;, as this returns the value present in &lt;code&gt;window.returnValue&lt;/code&gt; of the modal.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://coderuse.com/categories/JavaScript/"/>
+    
+      <category term="IE" scheme="http://coderuse.com/categories/JavaScript/IE/"/>
+    
+      <category term="IFrame" scheme="http://coderuse.com/categories/JavaScript/IE/IFrame/"/>
+    
+      <category term="Interesting" scheme="http://coderuse.com/categories/JavaScript/IE/IFrame/Interesting/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/JavaScript/IE/IFrame/Interesting/Cookbook/"/>
+    
+    
+      <category term="IE" scheme="http://coderuse.com/tags/IE/"/>
+    
+      <category term="IFrame" scheme="http://coderuse.com/tags/IFrame/"/>
+    
+      <category term="javascript" scheme="http://coderuse.com/tags/javascript/"/>
+    
+      <category term="modal" scheme="http://coderuse.com/tags/modal/"/>
+    
+      <category term="returnValue" scheme="http://coderuse.com/tags/returnValue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript &#39;bind&#39;: a less used magic</title>
+    <link href="http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/"/>
+    <id>http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/</id>
+    <published>2016-04-22T05:45:33.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>There is a method <a href="https://goo.gl/nNOcH3" target="_blank" rel="external">bind</a> available in <code>function.prototype</code> of JavaScript. Do you know? May be.</p>
+<p>I got to know about this in detail at quite a later time in my programming carrier. I heard and read about the method. But couldn’t find good example/use-case to use. Recently one of my colleagues came with a puzzle question, how to write this <code>multiply</code> function so that the following would return <code>120</code> the product of the numbers passed.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">multiply(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>)(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>He showed the solution as following:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">c</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a * b * c * d * e;</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>But, somehow I didn’t like the solution. As we can multiply that many numbers equal to the number of funcitons returned in chained fashion. And thought that partial function can be a resort to solve this problem. So my solution was:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="pi">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In non-strict mode we have to use this !== window (vide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> multiply = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!b &amp;&amp; (<span class="keyword">this</span> !== <span class="literal">undefined</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> multiply.bind(<span class="literal">null</span>, !b? a: a * b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>But here we only have to call this as <code>multiply(2)(3)(4)(5)(6)(7)()</code>, with an extra parenthesis to call the last generated function. Also, we have to be careful about the sentinel constraint as described in the comment.</p>
+<p>Until the last call of the method, it actually returns partial functions. And for the first and last case, we are relying on the fact, that <code>this</code> would be <code>undefined</code> in the first case and in the last call (the sentinel call), <code>b</code> would be <code>undefined</code> as well as <code>this</code> would be <code>null</code> not <code>undefined</code>. </p>
+<p>It’s a good use-case to use <code>bind</code>. And with this implementation we are not restricting ourselves to the number of operands, can be passed.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;There is a method &lt;a href=&quot;https://goo.gl/nNOcH3&quot;&gt;bind&lt;/a&gt; available in &lt;code&gt;function.prototype&lt;/code&gt; of JavaScript. Do you know? May be.&lt;/p&gt;
+&lt;p&gt;I got to know about this in detail at quite a later time in my programming carrier. I heard and read about the method. But couldn’t find good example/use-case to use. Recently one of my colleagues came with a puzzle question, how to write this &lt;code&gt;multiply&lt;/code&gt; function so that the following would return &lt;code&gt;120&lt;/code&gt; the product of the numbers passed.&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;multiply(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;)(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)(&lt;span class=&quot;number&quot;&gt;3&lt;/span&gt;)(&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;)(&lt;span class=&quot;number&quot;&gt;5&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://coderuse.com/categories/JavaScript/"/>
+    
+      <category term="Puzzle" scheme="http://coderuse.com/categories/JavaScript/Puzzle/"/>
+    
+      <category term="Interesting" scheme="http://coderuse.com/categories/JavaScript/Puzzle/Interesting/"/>
+    
+      <category term="Programming Language" scheme="http://coderuse.com/categories/JavaScript/Puzzle/Interesting/Programming-Language/"/>
+    
+    
+      <category term="bind" scheme="http://coderuse.com/tags/bind/"/>
+    
+      <category term="javascript" scheme="http://coderuse.com/tags/javascript/"/>
+    
+      <category term="partial-function" scheme="http://coderuse.com/tags/partial-function/"/>
+    
+      <category term="return" scheme="http://coderuse.com/tags/return/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript: What is the type of &#39;return&#39;</title>
+    <link href="http://coderuse.com/2016/04/JavaScript-What-is-the-type-of-return/"/>
+    <id>http://coderuse.com/2016/04/JavaScript-What-is-the-type-of-return/</id>
+    <published>2016-04-20T21:43:02.000Z</published>
+    <updated>2017-02-24T20:22:27.252Z</updated>
+    
+    <content type="html"><![CDATA[<p>When we think of the <code>return</code> type, we think of the type of data, returned by the concerned function in JavaScript.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">welcome</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"Welcome!!!"</span>; <span class="comment">/// Return type is 'String'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>But, sometimes back came accross an example of a function.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="built_in">console</span>.log(a + b),</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">arguments</span>),</span><br><span class="line">    a + b</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(add(<span class="number">2</span>, <span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<p>What would be the output???</p>
+<a id="more"></a>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="number">4</span></span><br><span class="line">[<span class="number">2</span>, <span class="number">2</span>]</span><br><span class="line"><span class="number">4</span></span><br></pre></td></tr></table></figure>
+<p>Amazing. Right. Or you’re not amazed, buffled, taken-aback, surprised as I was. May be you know why this is happenning. May be you know about <a href="https://goo.gl/NjllgA" target="_blank" rel="external">grouping operator</a>, <a href="https://goo.gl/4ZpkIk" target="_blank" rel="external">comma operator</a> or you may have already read the ECMA specification for  <a href="http://goo.gl/Nw1zn6" target="_blank" rel="external">return</a> and <a href="http://goo.gl/xDMl8o" target="_blank" rel="external">function</a>. If neither any of these is your case, read on.</p>
+<p>I posted one question in <a href="http://goo.gl/qSGdI4" target="_blank" rel="external">StackOverflow</a> regarding this. Many programmers answered and participated in the discussion. Actually if all of the concepts liknked in the above para is clear to one, there should not arise any question. But, it’s me. Never read properly. :P</p>
+<p>The question was, <em>is <code>return</code> here is behaving like a function</em>, as we are kind of passing arguments into it.</p>
+<p>Answer: <strong>No</strong></p>
+<p>If we try to print the <code>typeof return</code> it gives <code>SyntaxError: Unexpected token return</code>. As <code>return</code> is a statement by specification and <code>typeof</code> expects identifier after it, JavaScript engine won’t evaluate the expression. So, what happens here.</p>
+<ul>
+<li>The comma operator evaluates each of its operands (from left to right)</li>
+<li>The grouping operator () controls the precedence of evaluation in expressions.</li>
+</ul>
+<p>The comma operator makes the evaluation of each of the expressions passed to the grouping opeartor. So, we get the first two lines of the output.</p>
+<p>And the grouping operator is responsible to return the evaluated value of the last expression, separated by <code>comma</code>.</p>
+<p>Quite simple. Right. <img src="/images/emojis/smiley.png" width="32" height="32" class=" emoji nofancybox" title="smiley"> </p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;When we think of the &lt;code&gt;return&lt;/code&gt; type, we think of the type of data, returned by the concerned function in JavaScript.&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;welcome&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Welcome!!!&quot;&lt;/span&gt;; &lt;span class=&quot;comment&quot;&gt;/// Return type is &#39;String&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;But, sometimes back came accross an example of a function.&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;add&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;a, b&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(a + b),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;built_in&quot;&gt;arguments&lt;/span&gt;),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a + b&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  );&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(add(&lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;));&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;What would be the output???&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="http://coderuse.com/categories/JavaScript/"/>
+    
+      <category term="Inner Concepts" scheme="http://coderuse.com/categories/JavaScript/Inner-Concepts/"/>
+    
+      <category term="Programming Language" scheme="http://coderuse.com/categories/JavaScript/Inner-Concepts/Programming-Language/"/>
+    
+    
+      <category term="javascript" scheme="http://coderuse.com/tags/javascript/"/>
+    
+      <category term="return" scheme="http://coderuse.com/tags/return/"/>
+    
+      <category term="typeof" scheme="http://coderuse.com/tags/typeof/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Security Concerns To Build One AngularJS App</title>
+    <link href="http://coderuse.com/2016/03/Security-Concerns-To-Build-One-AngularJS-App/"/>
+    <id>http://coderuse.com/2016/03/Security-Concerns-To-Build-One-AngularJS-App/</id>
+    <published>2016-03-02T00:19:56.000Z</published>
+    <updated>2017-02-24T20:22:27.256Z</updated>
+    
+    <content type="html"><![CDATA[<p>An AngularJS web app finally results in a Single Page Web Application, managing it’s own routes, states (models), incorporating workflows, CRUD operations and much more around some tasks. So, primarily we have to concentrate on the common flaws found in an web app and then figure out what kind of direct or derived vulnerability may be caused in our app. </p>
+<a id="more"></a>
+<ol>
+<li><p><strong><a href="https://www.owasp.org/index.php/Network_Eavesdropping" target="_blank" rel="external">Eavesdropping</a>:</strong> It actually happens in network layer. It has nothing to do with the coding done in the app.<br><strong>Solution</strong>: If there is no direct communication between users via the app, it’s a standard to deliver the app over SSL. But solution for this kind of attack is a combination of configurations starting from DNS setting to but not limited to use of HTTPS. (<a href="https://en.wikipedia.org/wiki/Eavesdropping#See_also" target="_blank" rel="external">See also</a>)</p>
+</li>
+<li><p><strong><a href="http://www.cert.org/historical/advisories/CA-2000-02.cfm" target="_blank" rel="external">Cross Site Scripting(XSS)</a>:</strong> This is where an attacker can inject scripts into a page sent by the server and browser treats the injected script as any other scripts inside the page.</p>
+</li>
+<li><p><strong><a href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_%28CSRF%29_Prevention_Cheat_Sheet" target="_blank" rel="external">Cross Site Request Forgery(CSRF)</a>:</strong> A Cross-site request forgery is when a malicious site can use a visitor’s browser to make a request to your server that causes a change on the server. The server thinks that because the request comes with the user’s cookies, the user wanted to submit that form. </p>
+</li>
+</ol>
+<h3 id="Cross-Site-Scripting-XSS"><a href="#Cross-Site-Scripting-XSS" class="headerlink" title="Cross Site Scripting(XSS)"></a>Cross Site Scripting(XSS)</h3><p><strong>Use Case:</strong> Showing menu based on privileges. Users with malicious mind-set can change some of the variables, such that, non privileged members can also see the higher privileged tabs.<br><strong>Solution:</strong> Send or build the template, so it would only generate what is required. Nothing more. Ng-repeat may be a good resort here.</p>
+<p><strong>Use Case:</strong> Generation of some part of the page, depending on user input. One may input HTML to change the behaviour of the section.<br><strong>Solution:</strong> Treat the user input as strings and do not bind the user input as ng-bind-html</p>
+<p><strong>Use Case:</strong> User may input some code as the query parameters like: <code>http://abc.com?&lt;script&gt;alert(5)&lt;/script&gt; returns &quot;&lt;p&gt;There were no hits for &lt;script&gt;alert(5)&lt;/script&gt;.&lt;/p&gt;&quot;</code></p>
+<p><strong>Solution:</strong> Use route parameters instead of query parameters. If it’s inevitable to use the query params, do not run eval on the string, use it as a string and of course check for the tags.</p>
+<p>Lastly,</p>
+<ol>
+<li>Set correct mime type of the content, exchanged to-and-forth client and server </li>
+<li>If html templates are compiled into templateCache, correctly obfuscate the HTML replacing tags with HTML codes like, <code>&lt;</code> should be replaced by <code>&amp;lt;</code> </li>
+<li>It’s more than necessary to obfuscate JavaScript code with minifiers like Closure, YUI-Compressor etc. Signing tools may also be used, to check the page hash in server </li>
+<li>Depending upon the sensitivity of data, passing to the server, it may be required to encrypt the same </li>
+<li>Put each of the piece of the code into a closure, viz. an IIFE and if possible put ‘use strict’ at the top of each of them </li>
+<li>Use dependency injection into every providers. Life would be easy after minification </li>
+<li>If non obfuscated code needs to be used in client side, make the identifier names, as neutral possible. Use ‘re4ty_ft’ instead of ‘carPrice’ </li>
+<li>Disable autocomplete in sensitive information fields. User may have to key-in (even can’t paste. Refer to CITI Bank’s login page) or press keys in a virtual keyboard </li>
+<li>It’s not advisable to put any files containing user-restricted-data in the webroot </li>
+<li>Don’t store information in a global variable </li>
+</ol>
+<h3 id="Cross-Site-Request-Forgery-CSRF"><a href="#Cross-Site-Request-Forgery-CSRF" class="headerlink" title="Cross Site Request Forgery(CSRF)"></a>Cross Site Request Forgery(CSRF)</h3><p> This form of attack includes but not limited to:</p>
+<ol>
+<li>Access cookie to change <a href="http://www.squarefree.com/2003/10/23/another-google-security-hole/" target="_blank" rel="external">preferences</a></li>
+<li>Logout the victim </li>
+<li>Post a comment on behalf of the victim </li>
+<li>Use victim as a proxy to get data from the site </li>
+<li>Perform distributed password guessing attack, without even a pass hacker tool</li>
+</ol>
+<p><strong>Solution:</strong></p>
+<ol>
+<li>Send a login hash along with a API key each time client calls the server</li>
+<li>Logout must be done, jointly by client and server, in both ways </li>
+<li>Best not to use a cookie </li>
+<li>For login and sensitive operations, use captcha, or two-factor-authentication apps like DUO </li>
+<li>It’s better to use two different (.aspx or .php whatever) pages for login and app</li>
+<li>No state should be persisted in the server, I.e. to say the REST API should implement a complete REST architecture </li>
+<li>Encourage the users to close the window after logout (Currently Google Chrome does not close the tab/window invoking window.close command) </li>
+<li>Make one landing page and from there on click of a button open a new address bar disabled window to redirect to the app</li>
+</ol>
+<p><strong>Glossary:</strong></p>
+<ul>
+<li><a href="http://www.squarefree.com/securitytips/web-developers.html" target="_blank" rel="external">http://www.squarefree.com/securitytips/web-developers.html</a></li>
+<li><a href="http://artandlogic.com/2013/05/ive-been-doing-it-wrong-part-1-of-3/" target="_blank" rel="external">http://artandlogic.com/2013/05/ive-been-doing-it-wrong-part-1-of-3/</a> </li>
+<li><a href="http://code.tutsplus.com/tutorials/important-considerations-when-building-single-page-web-apps--net-29356" target="_blank" rel="external">http://code.tutsplus.com/tutorials/important-considerations-when-building-single-page-web-apps--net-29356</a> </li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;An AngularJS web app finally results in a Single Page Web Application, managing it’s own routes, states (models), incorporating workflows, CRUD operations and much more around some tasks. So, primarily we have to concentrate on the common flaws found in an web app and then figure out what kind of direct or derived vulnerability may be caused in our app. &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Best Practices" scheme="http://coderuse.com/categories/Best-Practices/"/>
+    
+      <category term="Web App" scheme="http://coderuse.com/categories/Best-Practices/Web-App/"/>
+    
+      <category term="AngularJS" scheme="http://coderuse.com/categories/Best-Practices/Web-App/AngularJS/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/Best-Practices/Web-App/AngularJS/Technical/"/>
+    
+    
+      <category term="angularjs" scheme="http://coderuse.com/tags/angularjs/"/>
+    
+      <category term="best-practices" scheme="http://coderuse.com/tags/best-practices/"/>
+    
+      <category term="web-app" scheme="http://coderuse.com/tags/web-app/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Install Deluge on Ubuntu Server</title>
+    <link href="http://coderuse.com/2015/12/install-deluge/"/>
+    <id>http://coderuse.com/2015/12/install-deluge/</id>
+    <published>2015-12-13T08:05:37.000Z</published>
+    <updated>2017-02-24T20:22:27.256Z</updated>
+    
+    <content type="html"><![CDATA[<p>Deluge is a very efficient torrent download/seeding client with a moderately good standard web ui. Though torrent is not acceptable to some extent on the moral ground, I can accept it to download software, songs, movies etc. for small personal uses. Actually why not. I live in India. Most of the Hollywood movies does not release in the theaters. The price of a Western music label is more than per capita income in this country. And I’m not going to sell or do some kind of business with the downloaded digital assets. And most of the movies are not that good to view multiple times. So download-watch-delete cycle is destined for them. With these logic I can justify my use of torrents.</p>
+<p>There are several clients to use torrent. Why do we need one client with web ui. To remotely administer the download. Why? Personally I don’t like to keep my pc turned on whole night-n-day to download large files. And sometimes it really takes a painfully long time to download. Therefore we need to have a low cost solution for this task. You can setup one Raspberry PI in your home for this. Or you can buy one cheap VPS or if you are damn serious about seeding you can get one dedicated server with a good bandwidth allocation from a p2p allowing provider. In any of this cases you need one sufficiently robust torrent client with an acceptable ui. Deluge is one of the best in this category.</p>
+<p>Let’s start. <a id="more"></a> To start this thing, we have to understand that the world of torrent is really full of very troublesome torrents. Before leaving our server to download our favorite entertainment, we must secure our server to some extent with some defensive measures. [I’ll try to add a different post for this purpose]</p>
+<p>One thing is that, to execute this whole procedure, one need to have at-least system administrator privilege for the login. First log into the system. If the login is for normal user, execute the command <span class="lang:sh decode:true crayon-inline ">sudo -i</span>  and when prompted give your login password.</p>
+<p>To run the Deluge server on our box, we will need one different user, than the users, we use to login into our system. For example we are using ‘<em>deluge</em>‘ as the name for both of our user and group.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">adduser --disabled-password --system --home /var/lib/deluge --gecos <span class="string">"Deluge Server"</span> --group deluge</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>--disabled-password</code>  disables the login with password, however login can be done by other means, for example by SSH RSA keys (though we don’t require this feature)</li>
+<li><code>--system</code>  specifies that both user and group will be one SYSTEM user and group</li>
+<li><code>--home</code>  specifies ‘<em>/var/lib/deluge</em>‘ as the home directory of the newly created user (for us it’s ‘<em>deluge</em>‘). One more thing is that, by default <em>Deluge</em> will be installed in this location</li>
+<li><code>--gecos</code>  Specifies META data, to be inserted into the ‘<em>/etc/passwd</em>‘ about the user. Typically this information may be phone number, name of the user etc. We can put any information after this in double quote</li>
+<li><code>--group</code>  this option combined with ‘<em>–system</em>‘, creates user and group with same name specified after this (for now, it’s ‘<em>deluge</em>‘)</li>
+</ul>
+<p>To run <em>Deluge</em>, we need to run <em>Deluge Server</em> and <em>Deluge Web</em>. The <em>web</em> component is the interface for the user to interact with the <em>Deluge Server</em>. Now we need to create <em>two</em> files to be logged by two components. We can do that by:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">touch /var/<span class="built_in">log</span>/deluged.log</span><br><span class="line">touch /var/<span class="built_in">log</span>/deluge-web.log</span><br><span class="line">chown deluge:deluge /var/<span class="built_in">log</span>/deluge*&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>touch</code>  is a <em>*nix</em> utility to change the time-stamp of a file and if the file does not exist, it creates one empty file with the name and location specified</li>
+<li><code>chown</code>  adds the ownership to the user and group specified. Here we have given permission/ownership of ‘<em>/var/log</em>‘ to user <em>deluge</em> of group <em>deluge</em> to write logs into the said directory</li>
+</ul>
+<p>We have to add the <em>Deluge</em> ‘<em>ppa</em>‘ repository to get the latest package published for your <em>Ubuntu</em> distribution.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install software-properties-common</span><br><span class="line">add-apt-repository ppa:deluge-team/ppa</span><br><span class="line">apt-get update</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>software-properties-common</code>  gives the ‘<em>add-apt-repository</em>‘ command</li>
+<li><code>apt-get update</code>  updates our <em>apt</em> cache for installation and update of software packages in the box</li>
+</ul>
+<p>Now we are ready to install the <em>Deluge</em> packages.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get install deluged deluge-webui&lt;/pre&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>deluged</code>  is the <em>Deluge</em> server and</li>
+<li><code>deluge-webui</code>  is the web interface of <em>Deluge</em></li>
+</ul>
+<p>To start <em>Deluge</em> server and <em>Deluge WebUI</em> at the start, we need to create two files in the <code>/etc/init</code>  directory. Use your favorite editor to create the <em>init</em> script for <em>Deluge</em> daemon (server) <code>/etc/init/deluged.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">description <span class="string">"Deluge daemon"</span></span><br><span class="line">author <span class="string">"Deluge Team"</span></span><br><span class="line"></span><br><span class="line">start on filesystem and static-network-up</span><br><span class="line">stop on runlevel [<span class="number">016</span>]</span><br><span class="line"></span><br><span class="line">respawn</span><br><span class="line">respawn <span class="built_in">limit</span> <span class="number">5</span> <span class="number">30</span></span><br><span class="line"></span><br><span class="line">env uid=deluge</span><br><span class="line">env gid=deluge</span><br><span class="line">env <span class="built_in">umask</span>=<span class="number">000</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> start-stop-daemon -S -c <span class="variable">$uid</span>:<span class="variable">$gid</span> -k <span class="variable">$umask</span> -x /usr/bin/deluged -- <span class="operator">-d</span></span><br></pre></td></tr></table></figure>
+<p>and for <em>Deluge WebUI</em> <code>/etc/init/deluge-web.conf</code> .</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">description <span class="string">"Deluge Web UI"</span></span><br><span class="line">author <span class="string">"Deluge Team"</span></span><br><span class="line"></span><br><span class="line">start on started deluged</span><br><span class="line">stop on stopping deluged</span><br><span class="line"></span><br><span class="line">respawn</span><br><span class="line">respawn <span class="built_in">limit</span> <span class="number">5</span> <span class="number">30</span></span><br><span class="line"></span><br><span class="line">env uid=deluge</span><br><span class="line">env gid=deluge</span><br><span class="line">env <span class="built_in">umask</span>=<span class="number">027</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">exec</span> start-stop-daemon -S -c <span class="variable">$uid</span>:<span class="variable">$gid</span> -k <span class="variable">$umask</span> -x /usr/bin/deluge-web</span><br></pre></td></tr></table></figure>
+<p>There are more details about this configurations <a href="http://dev.deluge-torrent.org/wiki/UserGuide/Service/Upstart" target="_blank" rel="external">here</a>.</p>
+<p>Now we can reboot our server by <code>init 6</code>  or <code>reboot -h now</code>  or start the <em>Deluge</em> services by</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">service deluged start</span><br><span class="line">service deluge-web start</span><br></pre></td></tr></table></figure>
+<p>Access the web interface at port <em>8112</em>. <code>http://yourserver_IP_OR_domain:8112</code> . It will prompt for a password. Type ‘<em>deluge</em>‘ and login. This is the default password for the WebUI. And we must change our password upon first login.</p>
+<p><img src="http://i.imgur.com/RbZcl4F.png" alt=""></p>
+<p>&nbsp;</p>
+<p>Also it may be required to connect the <em>daemon</em> by clicking the ‘<em>Connection Manager</em>‘ button at the top task-bar.</p>
+<p>This is not complete. Yet we have to do a little configuration for the <em>Deluge Daemon</em> and mask our web port with a good context name on our server. We will use NginX for this. And along with that we will add a new security measure. But this is pending for next post. Until then have a good time. :)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Deluge is a very efficient torrent download/seeding client with a moderately good standard web ui. Though torrent is not acceptable to some extent on the moral ground, I can accept it to download software, songs, movies etc. for small personal uses. Actually why not. I live in India. Most of the Hollywood movies does not release in the theaters. The price of a Western music label is more than per capita income in this country. And I’m not going to sell or do some kind of business with the downloaded digital assets. And most of the movies are not that good to view multiple times. So download-watch-delete cycle is destined for them. With these logic I can justify my use of torrents.&lt;/p&gt;
+&lt;p&gt;There are several clients to use torrent. Why do we need one client with web ui. To remotely administer the download. Why? Personally I don’t like to keep my pc turned on whole night-n-day to download large files. And sometimes it really takes a painfully long time to download. Therefore we need to have a low cost solution for this task. You can setup one Raspberry PI in your home for this. Or you can buy one cheap VPS or if you are damn serious about seeding you can get one dedicated server with a good bandwidth allocation from a p2p allowing provider. In any of this cases you need one sufficiently robust torrent client with an acceptable ui. Deluge is one of the best in this category.&lt;/p&gt;
+&lt;p&gt;Let’s start.
+    
+    </summary>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/Cookbook/"/>
+    
+      <category term="System" scheme="http://coderuse.com/categories/Cookbook/System/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/Cookbook/System/Technical/"/>
+    
+    
+      <category term="deluge" scheme="http://coderuse.com/tags/deluge/"/>
+    
+      <category term="torrent" scheme="http://coderuse.com/tags/torrent/"/>
+    
+      <category term="ubuntu" scheme="http://coderuse.com/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Create new tab/window from JavaScript</title>
+    <link href="http://coderuse.com/2015/12/create-new-tabwindow-from-javascript/"/>
+    <id>http://coderuse.com/2015/12/create-new-tabwindow-from-javascript/</id>
+    <published>2015-12-04T03:15:43.000Z</published>
+    <updated>2017-02-24T20:22:27.256Z</updated>
+    
+    <content type="html"><![CDATA[<p>Yesterday I was stuck in a very strange situation. It was required to open a tab from a success handler of a server call. Actually browser lets open a new tab/window from JavaScript if the ‘opening code’ is directly inside of a user event handler. May be a click, may be blur event or focus event, even page load. Otherwise it understands that the client side code is trying to open a new tab/window unauthorized; and the in-built popup blocker blocks the opening of the same; one browser specific indication of-course shown that a popup has been blocked.</p>
+<a id="more"></a>
+<p>After a little search I came across one solution to make the server call synchronous, then the new tab/window ‘opening code’ would be directly in the user event and there will be no problem in the intended purpose.</p>
+<p>Keeping the above consideration in mind, came with one more solution, one solution that can by-pass the situation.</p>
+<p>Solution 1:</p>
+<p>Make the server call synchronous, so that the new tab/window opening code be directly in the user event handler. (<a href="http://plnkr.co/edit/PK4XDhyYaaU7BLOrAssV?p=preview" target="_blank" rel="external">plunker</a>)</p>
+<p>Solution 2:</p>
+<p>Create one window, in the same closure, as the server call is made and keep the reference to it in a variable. And in the success handler of the call, change the location of the window created in-prior or close the same in error handler. (Closing the window may be a problem for Chrome &amp; Firefox) (<a href="http://plnkr.co/edit/hbqrmok6Hd7YzOoidRPP?p=preview" target="_blank" rel="external">plunker</a>)</p>
+<p>Solution 3:</p>
+<p>In the success handler create one confirmation dialog for the user, and in the ‘OK’ handler create the intended new tab/window.</p>
+<p>There may be another solution to create a form with <span class="lang:xhtml decode:true crayon-inline ">target=”_blank”</span> and in the action we will do the intended server call. But, I’ve not tried it. And this may not be a very good approach.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Yesterday I was stuck in a very strange situation. It was required to open a tab from a success handler of a server call. Actually browser lets open a new tab/window from JavaScript if the ‘opening code’ is directly inside of a user event handler. May be a click, may be blur event or focus event, even page load. Otherwise it understands that the client side code is trying to open a new tab/window unauthorized; and the in-built popup blocker blocks the opening of the same; one browser specific indication of-course shown that a popup has been blocked.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Browser" scheme="http://coderuse.com/categories/Browser/"/>
+    
+      <category term="Cookbook" scheme="http://coderuse.com/categories/Browser/Cookbook/"/>
+    
+      <category term="JavaScript" scheme="http://coderuse.com/categories/Browser/Cookbook/JavaScript/"/>
+    
+      <category term="Technical" scheme="http://coderuse.com/categories/Browser/Cookbook/JavaScript/Technical/"/>
+    
+    
+      <category term="browser" scheme="http://coderuse.com/tags/browser/"/>
+    
+      <category term="chrome" scheme="http://coderuse.com/tags/chrome/"/>
+    
+      <category term="create-new-tab" scheme="http://coderuse.com/tags/create-new-tab/"/>
+    
+      <category term="firefox" scheme="http://coderuse.com/tags/firefox/"/>
+    
+      <category term="ie" scheme="http://coderuse.com/tags/ie/"/>
+    
+      <category term="internet-explorer" scheme="http://coderuse.com/tags/internet-explorer/"/>
+    
+      <category term="javascript" scheme="http://coderuse.com/tags/javascript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello world!</title>
+    <link href="http://coderuse.com/2015/11/hello-world/"/>
+    <id>http://coderuse.com/2015/11/hello-world/</id>
+    <published>2015-11-28T07:51:50.000Z</published>
+    <updated>2017-02-24T20:22:27.256Z</updated>
+    
+    <content type="html"><![CDATA[<p>After thinking a lot and checking the amount of free time I get, finally decided to start a blog. I know after a short period of time eventually I would get bored and just stop to update this site. There is a risk of this to happen. But at-least let’s just start it. Later, we will see. There must be something, I can say, I’ve done this. After working for a long time in service sector, I think this is a common trait built in every software engineers to do something, that s/he can take credit of.</p>
+<p>Actually what we do, the solutions can be searched and surprisingly people have already come across the same problem one to three years back. StackOverflow is practically “Overflowing” with suitable answers to all of our questions. So there is no need to think over anything. And even if we get a real problem to solve (apparently the solution of which could not be found by Google search), managers understands that and discusses with client with such a rigor and extensiveness, that eventually the poor creature modifies the requirement and the problem gets “SOLVED”.</p>
+<p>With having no friend and attachments outside of the office, this blog will ultimately turn into a common “TECHNOLOGY BLOG”. I know. But, I’ll try to write fascinating ideas, conceptions to me.</p>
+<p>And of-course let’s hope that, I do not lose interest to update this. :-)</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;After thinking a lot and checking the amount of free time I get, finally decided to start a blog. I know after a short period of time eve
+    
+    </summary>
+    
+      <category term="Personal" scheme="http://coderuse.com/categories/Personal/"/>
+    
+      <category term="Sattire" scheme="http://coderuse.com/categories/Personal/Sattire/"/>
+    
+    
+      <category term="daily-routine" scheme="http://coderuse.com/tags/daily-routine/"/>
+    
+      <category term="office" scheme="http://coderuse.com/tags/office/"/>
+    
+      <category term="view-towards-life" scheme="http://coderuse.com/tags/view-towards-life/"/>
+    
+  </entry>
+  
+</feed>
