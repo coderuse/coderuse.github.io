@@ -4,7 +4,7 @@ Repo for coderuse.com
 
 ## License
 
-All the code presented are licensed under,
+All the code presented are licensed, unless otherwise notified/stated, under,
 
 ```
 Writer Arnab Das <arnab@coderuse.com>
@@ -20,7 +20,7 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
-All the documents, tutorials here are licensed under [GNU Free Documentation License](https://www.gnu.org/licenses/fdl-1.3.en.html)
+All the documents, tutorials here are licensed, unless otherwise notified/stated, under [GNU Free Documentation License](https://www.gnu.org/licenses/fdl-1.3.en.html)
 
 ```
 Copyright (C)  2017 to present  Arnab Das <arnab@coderuse.com>.
