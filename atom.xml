@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://coderuse.com/"/>
-  <updated>2017-04-22T15:13:44.000Z</updated>
+  <updated>2017-04-22T15:22:10.000Z</updated>
   <id>http://coderuse.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://coderuse.com/2016/09/JavaScript-Objects-Functions-Classes-In-ES5/"/>
     <id>http://coderuse.com/2016/09/JavaScript-Objects-Functions-Classes-In-ES5/</id>
     <published>2016-09-20T08:55:07.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>JavaScript has five primitive data types: string, number, boolean, null and undefined. And operators like, <code>+</code>, <code>-</code>, <code>typeof</code>, <code>instanceof</code> etc. Other than these, everything else are objects. Even functions are objects, can be created by invoking by <code>Function</code> constructor and <code>typeof</code> on a function returns <code>function</code>.</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// new Function([arg1[, arg2[, ...argN]],] functionBody)</span></span><br><span class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">'legs'</span>, <span class="string">'this.legs = legs;'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// check the type</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> animal); <span class="comment">// function</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// create an object</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> animal(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// and check if the value has been assigned or not </span></span><br><span class="line"><span class="built_in">console</span>.log(a.legs); <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
@@ -108,7 +108,7 @@
     <link href="http://coderuse.com/2016/09/Configure-GitLab-Backup-Into-Amazon-S3/"/>
     <id>http://coderuse.com/2016/09/Configure-GitLab-Backup-Into-Amazon-S3/</id>
     <published>2016-09-19T12:04:53.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>In the <a href="/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/">previous post</a>, I tried to write a step by step procedure to install and configure a <a href="https://about.gitlab.com/downloads/" target="_blank" rel="external">GitLab Community Edition Server</a>. Now, whenever we are running a server with some kind of hosting, whatever that may be, site-hosting, file-hosting, image-hosting or any other kind of hosting, proper backup is needed. Whatever we do to protect our server, for a cloud vps, it’s unlikely, but it may crash, or for some un-known reason, hosting account may be suspended, or host may go down for bankruptsy or server’s IP may get banned and the site can’t be accessed due to the firewall of the ISP. So, there are many reasons, that can result in no-access-to-the-server. And as a precaution, we need to take backup of the server regularly.</p>
 <p>For GitLab, backup means backup of configuration and application data both. <a href="https://docs.gitlab.com/omnibus/settings/backups.html" target="_blank" rel="external">More details</a>.</p>
@@ -168,7 +168,7 @@
     <link href="http://coderuse.com/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/"/>
     <id>http://coderuse.com/2016/09/Installation-And-Configuration-Of-GitLab-Server-With-CI/</id>
     <published>2016-09-17T15:16:42.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Please select <a href="http://releases.ubuntu.com/16.04/" target="_blank" rel="external">Ubuntu 16.04</a>, if it’s possible, as the server os, for both the servers. I’m using this. I’ll try to write the steps as os agnostic as possible and shall try to give proper links to install for other distributions.</p>
 <p>And of-course put the domain/sub-domain name you are going to use as the name of the server. It’s required.</p>
@@ -242,7 +242,7 @@
     <link href="http://coderuse.com/2016/09/How-I-Host-Private-GitLab-With-CI-For-Less-Than-Four-Euro/"/>
     <id>http://coderuse.com/2016/09/How-I-Host-Private-GitLab-With-CI-For-Less-Than-Four-Euro/</id>
     <published>2016-09-16T04:30:34.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>We the creators must take good care of what we create. I, as a software developer write code. A journalist creates new articles. A researcher writes thesis. And so on. These, what we create, does not come without cost. Here the cost is, we have to conceive an idea. Do research on that idea. Collect documents, which have been created by others,on that idea or related to that idea. Read/analyse the collected resources. Think and think over the topic. For days. For months. For some, maybe some years. The creator of Pokemon Go, conceived the idea in 2010. And finally could publish in 2016. It takes time to create. Creation costs ourselves.</p>
 <p>So, we must take good care of what we create. We must preserve them. And we should take it seriously.</p>
@@ -296,7 +296,7 @@
     <link href="http://coderuse.com/2016/09/CI-with-Vexor/"/>
     <id>http://coderuse.com/2016/09/CI-with-Vexor/</id>
     <published>2016-09-10T19:34:51.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Today I’ve configured CI with <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a> for this blog. Actually I use <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a> to generate a static site and then upload the generated static content to the remote machine, hosting the blog. Quite simple.</p>
 <p>Generating the static pages and then upload them to the remote machine takes a lot of effort beside writing a post. And the job is so repetitive. So, CI is a very good use case for this. But, as I use private repo for this, most of the prominent CI hosts charge a lot to build for private repos. After searching a little bit, got the name of <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a>. The best thing is that, they are not limiting you, 1 build unit, 2 build units, private repo etc. You start with free 100 build minutes, then $0.015/min. Quite cheap. And no prior commitment with huge monthly subscriptions (Others are really pricey. I don’t understand, why do they charge over $30/month for a single unit, while builds for most of the normal projects does not go over 1hr. And how many builds per day a project can see. I don’t know.) So, I pleased with the pricing matrix of <a href="https://vexor.io/" target="_blank" rel="external">Vexor</a>.</p>
@@ -347,7 +347,7 @@
     <link href="http://coderuse.com/2016/08/Moving-new-Git-branch-with-different-history-to-master/"/>
     <id>http://coderuse.com/2016/08/Moving-new-Git-branch-with-different-history-to-master/</id>
     <published>2016-08-22T10:42:04.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Today I’ve learned a new thing about Git. Actually some days back, we started re-implementation of one of our old web app. Previously, the app was written with Jquery. Some days back, we felt that, it would be better, if we could use ReactJs for the app, as it only shows updates, and each of the updates has it’s own life cycle. So, thought this would be a good use case to leverage the powerful features of ReactJs.</p>
 <p>Anyway, as this new development happens to be completely different than the previous one, first decided to create a new repository altogether. But, after some considerations, came to the conclusion, that it would be wrong, if we create a completely new repository for a software, that will do essentially the same things as the previous one.</p>
@@ -390,7 +390,7 @@
     <link href="http://coderuse.com/2016/04/Show-modal-dialog-in-IE-with-IFrame/"/>
     <id>http://coderuse.com/2016/04/Show-modal-dialog-in-IE-with-IFrame/</id>
     <published>2016-04-27T21:12:04.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>We had used modal dialog of IE, in one of our old projects. What we did there, opened one modal dialog, with one url to a external website. In the external page (not maintained by us), one variable <code>returnValue</code> was set to <code>window</code> with the intended value (one object actually), and we used to get the resultant from the return value of <code>showModalDialog</code>, as this returns the value present in <code>window.returnValue</code> of the modal.</p>
 <a id="more"></a>
@@ -451,7 +451,7 @@
     <link href="http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/"/>
     <id>http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/</id>
     <published>2016-04-22T05:45:33.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>There is a method <a href="https://goo.gl/nNOcH3" target="_blank" rel="external">bind</a> available in <code>function.prototype</code> of JavaScript. Do you know? May be.</p>
 <p>I got to know about this in detail at quite a later time in my programming carrier. I heard and read about the method. But couldn’t find good example/use-case to use. Recently one of my colleagues came with a puzzle question, how to write this <code>multiply</code> function so that the following would return <code>120</code> the product of the numbers passed.</p>
@@ -498,7 +498,7 @@
     <link href="http://coderuse.com/2016/04/JavaScript-What-is-the-type-of-return/"/>
     <id>http://coderuse.com/2016/04/JavaScript-What-is-the-type-of-return/</id>
     <published>2016-04-20T21:43:02.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>When we think of the <code>return</code> type, we think of the type of data, returned by the concerned function in JavaScript.</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">welcome</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">"Welcome!!!"</span>; <span class="comment">/// Return type is 'String'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -551,7 +551,7 @@
     <link href="http://coderuse.com/2016/03/Security-Concerns-To-Build-One-AngularJS-App/"/>
     <id>http://coderuse.com/2016/03/Security-Concerns-To-Build-One-AngularJS-App/</id>
     <published>2016-03-02T00:19:56.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>An AngularJS web app finally results in a Single Page Web Application, managing it’s own routes, states (models), incorporating workflows, CRUD operations and much more around some tasks. So, primarily we have to concentrate on the common flaws found in an web app and then figure out what kind of direct or derived vulnerability may be caused in our app. </p>
 <a id="more"></a>
@@ -635,7 +635,7 @@
     <link href="http://coderuse.com/2015/12/install-deluge/"/>
     <id>http://coderuse.com/2015/12/install-deluge/</id>
     <published>2015-12-13T08:05:37.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Deluge is a very efficient torrent download/seeding client with a moderately good standard web ui. Though torrent is not acceptable to some extent on the moral ground, I can accept it to download software, songs, movies etc. for small personal uses. Actually why not. I live in India. Most of the Hollywood movies does not release in the theaters. The price of a Western music label is more than per capita income in this country. And I’m not going to sell or do some kind of business with the downloaded digital assets. And most of the movies are not that good to view multiple times. So download-watch-delete cycle is destined for them. With these logic I can justify my use of torrents.</p>
 <p>There are several clients to use torrent. Why do we need one client with web ui. To remotely administer the download. Why? Personally I don’t like to keep my pc turned on whole night-n-day to download large files. And sometimes it really takes a painfully long time to download. Therefore we need to have a low cost solution for this task. You can setup one Raspberry PI in your home for this. Or you can buy one cheap VPS or if you are damn serious about seeding you can get one dedicated server with a good bandwidth allocation from a p2p allowing provider. In any of this cases you need one sufficiently robust torrent client with an acceptable ui. Deluge is one of the best in this category.</p>
@@ -710,7 +710,7 @@
     <link href="http://coderuse.com/2015/12/create-new-tabwindow-from-javascript/"/>
     <id>http://coderuse.com/2015/12/create-new-tabwindow-from-javascript/</id>
     <published>2015-12-04T03:15:43.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>Yesterday I was stuck in a very strange situation. It was required to open a tab from a success handler of a server call. Actually browser lets open a new tab/window from JavaScript if the ‘opening code’ is directly inside of a user event handler. May be a click, may be blur event or focus event, even page load. Otherwise it understands that the client side code is trying to open a new tab/window unauthorized; and the in-built popup blocker blocks the opening of the same; one browser specific indication of-course shown that a popup has been blocked.</p>
 <a id="more"></a>
@@ -761,7 +761,7 @@
     <link href="http://coderuse.com/2015/11/hello-world/"/>
     <id>http://coderuse.com/2015/11/hello-world/</id>
     <published>2015-11-28T07:51:50.000Z</published>
-    <updated>2017-04-22T15:13:44.000Z</updated>
+    <updated>2017-04-22T15:22:10.000Z</updated>
     
     <content type="html"><![CDATA[<p>After thinking a lot and checking the amount of free time I get, finally decided to start a blog. I know after a short period of time eventually I would get bored and just stop to update this site. There is a risk of this to happen. But at-least let’s just start it. Later, we will see. There must be something, I can say, I’ve done this. After working for a long time in service sector, I think this is a common trait built in every software engineers to do something, that s/he can take credit of.</p>
 <p>Actually what we do, the solutions can be searched and surprisingly people have already come across the same problem one to three years back. StackOverflow is practically “Overflowing” with suitable answers to all of our questions. So there is no need to think over anything. And even if we get a real problem to solve (apparently the solution of which could not be found by Google search), managers understands that and discusses with client with such a rigor and extensiveness, that eventually the poor creature modifies the requirement and the problem gets “SOLVED”.</p>
