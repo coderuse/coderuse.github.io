@@ -2,8 +2,8 @@
 <html ⚡>
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/index.html" >
-    <title>JavaScript &#39;bind&#39;: a less used magic | CodeRuse</title>
+    <link rel="canonical" href="http://coderuse.com/2017/10/A-Short-Refresher-On-Git/index.html" >
+    <title>A Short Refresher On Git | CodeRuse</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300|Roboto:300|Inconsolata" />
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
@@ -26,17 +26,13 @@
 		{
 			"@context": "http://schema.org",
 			"@type": "BlogPosting",
-			"headline": "JavaScript &#39;bind&#39;: a less used magic",
-			
-			"description": "&lt;p&gt;There is a method &lt;a href=&#34;https://goo.gl/nNOcH3&#34;&gt;bind&lt;/a&gt; available in &lt;code&gt;function.prototype&lt;/code&gt; of JavaScript. Do you know? May be.&lt;/p&gt;
-&lt;p&gt;I got to know about this in detail at quite a later time in my programming carrier. I heard and read about the method. But couldn’t find good example/use-case to use. Recently one of my colleagues came with a puzzle question, how to write this &lt;code&gt;multiply&lt;/code&gt; function so that the following would return &lt;code&gt;120&lt;/code&gt; the product of the numbers passed.&lt;/p&gt;
-&lt;figure class=&#34;highlight javascript&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;multiply(&lt;span class=&#34;number&#34;&gt;1&lt;/span&gt;)(&lt;span class=&#34;number&#34;&gt;2&lt;/span&gt;)(&lt;span class=&#34;number&#34;&gt;3&lt;/span&gt;)(&lt;span class=&#34;number&#34;&gt;4&lt;/span&gt;)(&lt;span class=&#34;number&#34;&gt;5&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;",
+			"headline": "A Short Refresher On Git",
 			
 			"mainEntityOfPage":{
 			    "@type":"WebPage",
-			    "@id":"http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/"
+			    "@id":"http://coderuse.com/2017/10/A-Short-Refresher-On-Git/"
 			},
-			"datePublished": "2016-04-22T05:45:33.000Z",
+			"datePublished": "2017-10-13T15:44:45.000Z",
 			"dateModified": "2017-10-13T16:49:51.000Z",
 			
 			"author": {
@@ -1535,14 +1531,14 @@ amp-twitter {
   	<!-- container -->
   	<div id="container">
 	  	<div id="main">
-		    <article id="post-JavaScript-bind-a-less-used-magic" class="post">
+		    <article id="post-A-Short-Refresher-On-Git" class="post">
 		    
 		    	<!-- entry title -->
 				<div class="title-cover">
 					<div class="entry-header">
 						
 						  <h1 class="article-title entry-title" itemprop="name">
-						    <a href="http://coderuse.com/2016/04/JavaScript-bind-a-less-used-magic/" target="_blank" itemprop="url">JavaScript &#39;bind&#39;: a less used magic</a>
+						    <a href="http://coderuse.com/2017/10/A-Short-Refresher-On-Git/" target="_blank" itemprop="url">A Short Refresher On Git</a>
 						  </h1>
 						
 					</div>
@@ -1550,7 +1546,7 @@ amp-twitter {
 					<!-- datePublished -->
 					<div class="entry-meta-header">
 						<span class="meta-elements date">
-							<time datetime="Apr 22, 2016" itemprop="datePublished">Apr 22, 2016</time>
+							<time datetime="Oct 13, 2017" itemprop="datePublished">Oct 13, 2017</time>
 						</span>
 					</div>
 				</div>
@@ -1584,17 +1580,35 @@ amp-twitter {
 			    	
 			    	
 			    	<!-- content -->
-			  		<p>There is a method <a href="https://goo.gl/nNOcH3" target="_blank" rel="external">bind</a> available in <code>function.prototype</code> of JavaScript. Do you know? May be.</p>
-<p>I got to know about this in detail at quite a later time in my programming carrier. I heard and read about the method. But couldn’t find good example/use-case to use. Recently one of my colleagues came with a puzzle question, how to write this <code>multiply</code> function so that the following would return <code>120</code> the product of the numbers passed.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">multiply(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>)(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>He showed the solution as following:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiply</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">c</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">d</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> a * b * c * d * e;</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>But, somehow I didn’t like the solution. As we can multiply that many numbers equal to the number of funcitons returned in chained fashion. And thought that partial function can be a resort to solve this problem. So my solution was:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="pi">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// In non-strict mode we have to use this !== window (vide: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> multiply = <span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!b &amp;&amp; (<span class="keyword">this</span> !== <span class="literal">undefined</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> multiply.bind(<span class="literal">null</span>, !b? a: a * b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>But here we only have to call this as <code>multiply(2)(3)(4)(5)(6)(7)()</code>, with an extra parenthesis to call the last generated function. Also, we have to be careful about the sentinel constraint as described in the comment.</p>
-<p>Until the last call of the method, it actually returns partial functions. And for the first and last case, we are relying on the fact, that <code>this</code> would be <code>undefined</code> in the first case and in the last call (the sentinel call), <code>b</code> would be <code>undefined</code> as well as <code>this</code> would be <code>null</code> not <code>undefined</code>. </p>
-<p>It’s a good use-case to use <code>bind</code>. And with this implementation we are not restricting ourselves to the number of operands, can be passed.</p>
+			  		<p><a href="https://git-scm.com/" target="_blank" rel="external">Git</a> is the most popular version control management tool/system today. Being distributed in nature, it facilitates lower risk of losing the whole repo out-of-the-blue. Because, user always has a copy of the repo. And there are a lot of vendors, offering hosted git server. And most the offerings are free with a reasonable limit.</p>
+<p>I’ve been using Git for quite a long time. Though I’m not that much familiar with advanced concepts or complex scenarios regarding Git. To do day-to-day normal tasks, mostly I use only six commands(<code>status</code>, <code>commit</code>, <code>branch</code>, <code>checkout</code>, <code>push</code>, <code>pull</code>), with some flags some times. It’s true that I don’t do very complex things with it. But those four commands are enough for me. In this post, I’m iterating those commands one-by-one, possibly with some comments.</p>
+<p>Okay, let’s start by creating a <code>git</code> repo with <code>init</code> command.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir new_git_repo_folder</span><br><span class="line"><span class="built_in">cd</span> new_git_repo_folder</span><br><span class="line">git init</span><br></pre></td></tr></table></figure>
+<p>It’s as simple as that. After running this command, you can see, one folder with name <code>.git</code> has been created. This folder is going to hold all the meta information for the repository. Git actually maintains <code>hash</code> for a particular commit. Those information also reside in this folder. Now create some content.</p>
+<p>Most of the Git host servers shows the content of <code>README.md</code> as default face of a directory. It’s kind of <code>index.html</code> in a website. The extension <code>.md</code> stands for <code>mark-down</code>. It’s a pre-defined format to write documents, that can be converted into HTML/PDF or any other type, by some tool. There are a lot of implementation of this converter. Though there is a standard for the syntax for <code>mark-down</code> but it mostly depend on the converter in use. GitHub, GitLab, Bitbucket all have implemented their own version of <code>mark-down</code> to <code>HTML</code> converter. Though their most of the syntaxes are same, there are some extras also. But for now, we don’t have to bother with the <code>mark-down</code> syntax compatibility of various providers. We are gonna just add one <code>README.md</code> file.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"# New Git Repo"</span> &gt; README.md</span><br></pre></td></tr></table></figure>
+<p>The leading <code>#</code> will tell the converter to make the title as <code>h1</code> element in <code>HTML</code>. Git has two very important concepts. <code>HEAD</code> and <code>stage</code>.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git status</span><br><span class="line">git add README.md</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>Add the user info to the local repo.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config user.name <span class="string">"Arnab Das"</span></span><br><span class="line">git config user.email <span class="string">"arnab@coderuse.com"</span></span><br></pre></td></tr></table></figure>
+<p>Add user info for the work environment.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name <span class="string">"Arnab Das"</span></span><br><span class="line">git config --global user.email <span class="string">"arnab@coderuse.com"</span></span><br></pre></td></tr></table></figure>
+<p>Now commit.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">"Adding README.md"</span></span><br><span class="line"><span class="comment"># or, to add author in commit itself</span></span><br><span class="line">git commit --author <span class="string">"Arnab Das &lt;arnab@coderuse.com&gt;"</span> -m <span class="string">"Adding README.md"</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<p>Add the remote. It’s possible to mention the name of the remote other than <code>origin</code>. It’s just the most common one.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git add remote origin &lt;origin-url&gt;</span><br><span class="line"><span class="comment"># for the first time it's required to mention the remote name and branch name</span></span><br><span class="line"><span class="comment"># the -u flag persists the mapping of the local to remote branch</span></span><br><span class="line"><span class="comment"># later just "git push"</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>Create new branch and <code>checkout</code> to the branch.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b new_branch</span><br><span class="line"><span class="comment"># do some changes</span></span><br><span class="line">git push -u origin new_branch</span><br></pre></td></tr></table></figure>
+<p>Clone a git repo.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;git-repo-url&gt; [optional-folder-name]</span><br><span class="line"><span class="built_in">cd</span> new_git_repo</span><br></pre></td></tr></table></figure>
+<p>Checkout to a branch. Both the following commands does the same thing. Creates a local branch named <code>new_branch</code> from the remote branch <code>new_branch</code>. Only difference is that, it’s possible to mention a different branch name in the first command.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout -b new_branch origin/new_branch</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">git checkout -t origin/new_branch</span><br></pre></td></tr></table></figure>
+<p>See the branch names.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># lists only the local branches</span></span><br><span class="line">git branch</span><br><span class="line"><span class="comment"># lists local along with remote branches</span></span><br><span class="line">git branch <span class="operator">-a</span></span><br><span class="line"><span class="comment"># search for a branch name</span></span><br><span class="line">git branch --all | grep &lt;string-to-search-for-in-branch-names&gt;</span><br></pre></td></tr></table></figure>
+<p>Delete a branch locally.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch <span class="operator">-d</span> &lt;branch-name&gt;</span><br><span class="line"><span class="comment"># if branch has some new commits delete forcefully</span></span><br><span class="line">git branch -D &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+<p>Delete the branch in remote.</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push &lt;remote-name&gt; :&lt;branch-to-delete&gt;</span><br></pre></td></tr></table></figure>
 
 			  		
 			  		
@@ -1617,26 +1631,14 @@ amp-twitter {
 						<ul class="article-categories-list">
 							
 					    		<li class="article-categories-list-item">
-					    			<a class="article-categories-list-link" href="/categories/JavaScript/" class="link-gaTrack" data-linkType="link-categories">
-					    				JavaScript
+					    			<a class="article-categories-list-link" href="/categories/System/" class="link-gaTrack" data-linkType="link-categories">
+					    				System
 					    			</a>
 					    		</li>
 							
 					    		<li class="article-categories-list-item">
-					    			<a class="article-categories-list-link" href="/categories/JavaScript/Puzzle/" class="link-gaTrack" data-linkType="link-categories">
-					    				Puzzle
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-categories-list-item">
-					    			<a class="article-categories-list-link" href="/categories/JavaScript/Puzzle/Interesting/" class="link-gaTrack" data-linkType="link-categories">
-					    				Interesting
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-categories-list-item">
-					    			<a class="article-categories-list-link" href="/categories/JavaScript/Puzzle/Interesting/Programming-Language/" class="link-gaTrack" data-linkType="link-categories">
-					    				Programming Language
+					    			<a class="article-categories-list-link" href="/categories/System/Technical/" class="link-gaTrack" data-linkType="link-categories">
+					    				Technical
 					    			</a>
 					    		</li>
 							
@@ -1652,26 +1654,14 @@ amp-twitter {
 						<ul class="article-tag-list">
 							
 					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/bind/" class="link-gaTrack" data-linkType="link-tag">
-					    				bind
+					    			<a class="article-tag-list-link" href="/tags/bash/" class="link-gaTrack" data-linkType="link-tag">
+					    				bash
 					    			</a>
 					    		</li>
 							
 					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/javascript/" class="link-gaTrack" data-linkType="link-tag">
-					    				javascript
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/partial-function/" class="link-gaTrack" data-linkType="link-tag">
-					    				partial-function
-					    			</a>
-					    		</li>
-							
-					    		<li class="article-tag-list-item">
-					    			<a class="article-tag-list-link" href="/tags/return/" class="link-gaTrack" data-linkType="link-tag">
-					    				return
+					    			<a class="article-tag-list-link" href="/tags/git/" class="link-gaTrack" data-linkType="link-tag">
+					    				git
 					    			</a>
 					    		</li>
 							
@@ -1686,19 +1676,11 @@ amp-twitter {
 		  	
 			<nav id="article-nav">
 			  
-			  <a href="/2016/04/Show-modal-dialog-in-IE-with-IFrame/./amp/" id="article-nav-newer" class="article-nav-link-wrap">
+			  
+			  <a href="/2017/05/socks-proxy-and-shadowsocks/./amp/" id="article-nav-older" class="article-nav-link-wrap">
 			    <div class="article-nav-title">
 			      
-			        Show modal dialog in IE with IFrame
-			      
-			    </div>
-			  </a>
-			  
-			  
-			  <a href="/2016/04/JavaScript-What-is-the-type-of-return/./amp/" id="article-nav-older" class="article-nav-link-wrap">
-			    <div class="article-nav-title">
-			      
-			        JavaScript: What is the type of &#39;return&#39;
+			        Socks proxy and shadowsocks
 			      
 			    </div>
 			  </a>
